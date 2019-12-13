@@ -1,12 +1,9 @@
-import express, { Application, Request, Response } from 'express';
+import { ApolloServer } from 'apollo-server';
+import typeDefs from './graphql/typeDefs';
+import resolvers from './graphql/resolvers';
 
-const app: Application = express();
+const server = new ApolloServer({ typeDefs, resolvers });
 
-app.get('/', (req: Request, res: Response) => {
-  console.log(req);
-  res.send('hello worldsssss');
-});
-
-app.listen(4000, () => {
-  console.log(`server started`);
+server.listen(4000, () => {
+  console.log('server started');
 });
