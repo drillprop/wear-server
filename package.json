@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon src/app.ts",
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,13 +14,14 @@
     "apollo-server": "^2.9.13",
     "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
-    "pg": "^7.15.1",
-    "typeorm": "^0.2.21"
+    "pg": "^7.3.0",
+    "typeorm": "0.2.21",
+    "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
-    "@types/node": "^12.12.17",
+    "@types/node": "^8.0.29",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   }
 }
