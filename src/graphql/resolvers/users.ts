@@ -1,14 +1,10 @@
+import { User } from '../../entity/User';
+
 export default {
   Query: {
-    users() {
-      return [
-        {
-          id: 'someid',
-          email: 'someemail@email.com',
-          token: 'sometoken',
-          userName: 'username'
-        }
-      ];
+    async users() {
+      const allUsers = await User.find();
+      return allUsers;
     }
   }
 };
