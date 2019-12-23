@@ -1,9 +1,13 @@
-import { ApolloServer } from 'apollo-server';
-import typeDefs from './graphql/typeDefs';
-import resolvers from './graphql/resolvers';
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import { server } from './server';
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const startServer = async () => {
+  const connection = await createConnection();
+  await connection.runMigrations();
+  server.listen(4000, () => {
+    console.log('server started');
+  });
+};
 
-server.listen(4000, () => {
-  console.log('server started');
-});
+startServer();
