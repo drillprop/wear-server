@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "ts-node src/index.ts",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen --watch"
   },
   "keywords": [],
   "author": "",
