@@ -1,4 +1,4 @@
-schema: http://localhost:4000
+schema: ./src/graphql/typeDefs.ts
 generates:
   ./src/generated/types.d.ts:
     plugins:
