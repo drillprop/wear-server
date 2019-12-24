@@ -1,5 +1,6 @@
 import { User } from '../../entity/User';
 import { MutationCreateUserArgs } from '../../generated/types';
+import bcrypt from 'bcrypt';
 
 export default {
   Query: {
@@ -12,10 +13,11 @@ export default {
     async createUser(_: any, args: MutationCreateUserArgs) {
       const { email, password, userName } = args;
       try {
+        const hashPassword = await bcrypt.hash(password, 12);
         const user = new User();
         user.email = email;
-        user.password = password;
         user.userName = userName;
+        user.password = hashPassword;
         await user.save();
         return user;
       } catch (error) {
