@@ -6,15 +6,7 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any,
 };
-
-
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
 
 export type Mutation = {
    __typename?: 'Mutation',
@@ -23,9 +15,7 @@ export type Mutation = {
 
 
 export type MutationCreateUserArgs = {
-  email: Scalars['String'],
-  userName: Scalars['String'],
-  password: Scalars['String']
+  input: RegisterInput
 };
 
 export type Query = {
@@ -33,9 +23,15 @@ export type Query = {
   users?: Maybe<Array<Maybe<User>>>,
 };
 
+export type RegisterInput = {
+  email: Scalars['String'],
+  userName: Scalars['String'],
+  password: Scalars['String'],
+};
 
 export type User = {
    __typename?: 'User',
+  token: Scalars['String'],
   id: Scalars['ID'],
   email: Scalars['String'],
   userName: Scalars['String'],
