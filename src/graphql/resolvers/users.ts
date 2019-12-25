@@ -1,6 +1,14 @@
 import { User } from '../../entity/User';
 import { MutationCreateUserArgs } from '../../generated/types';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const createUserToken = (user: User) => {
+  const { password, ...rest } = user;
+  return jwt.sign({ ...rest }, 'somesecretkey', {
+    expiresIn: '7d'
+  });
+};
 
 export default {
   Query: {
@@ -11,7 +19,7 @@ export default {
   },
   Mutation: {
     async createUser(_: any, args: MutationCreateUserArgs) {
-      const { email, password, userName } = args;
+      const { email, password, userName } = args.input;
       try {
         const hashPassword = await bcrypt.hash(password, 12);
         const user = new User();
@@ -19,7 +27,8 @@ export default {
         user.userName = userName;
         user.password = hashPassword;
         await user.save();
-        return user;
+        const token = createUserToken(user);
+        return { ...user, token };
       } catch (error) {
         throw new Error(error);
       }
