@@ -11,14 +11,25 @@ export type Scalars = {
   Float: number,
 };
 
+export type LoginInput = {
+  email: Scalars['String'],
+  password: Scalars['String'],
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
   register: User,
+  login: User,
 };
 
 
 export type MutationRegisterArgs = {
   input: RegisterInput
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput
 };
 
 export type Query = {
@@ -120,6 +131,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>,
   Mutation: ResolverTypeWrapper<{}>,
   RegisterInput: RegisterInput,
+  LoginInput: LoginInput,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 };
 
@@ -131,11 +143,13 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'],
   Mutation: {},
   RegisterInput: RegisterInput,
+  LoginInput: LoginInput,
   Boolean: Scalars['Boolean'],
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
+  login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

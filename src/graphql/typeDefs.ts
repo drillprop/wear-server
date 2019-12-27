@@ -6,11 +6,16 @@ export default gql`
     userName: String!
     password: String!
   }
+  input LoginInput {
+    email: String!
+    password: String!
+  }
   type Query {
     users: [User]
   }
   type Mutation {
     register(input: RegisterInput!): User!
+    login(input: LoginInput!): User!
   }
   type User {
     token: String!

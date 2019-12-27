@@ -33,6 +33,25 @@ const userResolvers: Resolvers = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    async login(_, args) {
+      const { email, password } = args.input;
+      try {
+        const user = await UserDB.findByEmail(email);
+        if (!user) {
+          throw new Error('No user with these email');
+        }
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+          throw new Error('Wrong password');
+        }
+        const token = createUserToken(user);
+        user.token = token;
+        user.save();
+        return user;
+      } catch (error) {
+        throw new Error(error);
+      }
     }
   }
 };
