@@ -5,7 +5,8 @@ import jwt from 'jsonwebtoken';
 
 const createUserToken = (user: UserDB) => {
   const { password, ...rest } = user;
-  return jwt.sign({ ...rest }, 'somesecretkey', {
+  const secret = process.env.JWT_SECRET as string;
+  return jwt.sign({ ...rest }, secret, {
     expiresIn: '7d'
   });
 };
