@@ -10,7 +10,7 @@ export default gql`
     users: [User]
   }
   type Mutation {
-    createUser(input: RegisterInput!): User!
+    register(input: RegisterInput!): User!
   }
   type User {
     token: String!

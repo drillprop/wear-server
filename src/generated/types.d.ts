@@ -10,11 +10,11 @@ export type Scalars = {
 
 export type Mutation = {
    __typename?: 'Mutation',
-  createUser: User,
+  register: User,
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationRegisterArgs = {
   input: RegisterInput
 };
 

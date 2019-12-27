@@ -1,5 +1,5 @@
 import { User } from '../../entity/User';
-import { MutationCreateUserArgs } from '../../generated/types';
+import { MutationRegisterArgs, Mutation, Query } from '../../generated/types';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -18,7 +18,7 @@ export default {
     }
   },
   Mutation: {
-    async createUser(_: any, args: MutationCreateUserArgs) {
+    async register(_: any, args: MutationRegisterArgs) {
       const { email, password, userName } = args.input;
       try {
         const hashPassword = await bcrypt.hash(password, 12);
