@@ -3,3 +3,7 @@ generates:
   ./src/generated/types.d.ts:
     plugins:
       - typescript
+      - typescript-resolvers
+    config:
+      mappers:
+        User: ../entity/User#UserDB
