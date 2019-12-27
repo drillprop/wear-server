@@ -54,7 +54,8 @@ export type User = {
   lastName?: Maybe<Scalars['String']>,
 };
 
-
+export type WithIndex<TObject> = TObject & Record<string, any>;
+export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -124,7 +125,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
+export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
   User: ResolverTypeWrapper<UserDB>,
   String: ResolverTypeWrapper<Scalars['String']>,
@@ -133,10 +134,10 @@ export type ResolversTypes = {
   RegisterInput: RegisterInput,
   LoginInput: LoginInput,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
-};
+}>;
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
+export type ResolversParentTypes = ResolversObject<{
   Query: {},
   User: UserDB,
   String: Scalars['String'],
@@ -145,18 +146,18 @@ export type ResolversParentTypes = {
   RegisterInput: RegisterInput,
   LoginInput: LoginInput,
   Boolean: Scalars['Boolean'],
-};
+}>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
-};
+}>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -164,13 +165,13 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = any> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
-};
+}>;
 
 
 /**
