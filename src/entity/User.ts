@@ -30,4 +30,10 @@ export class UserDB extends BaseEntity {
 
   @Column({ nullable: true })
   token: string;
+
+  static findByEmail(email: string) {
+    return this.createQueryBuilder('user_db')
+      .where('user_db.email = :email', { email })
+      .getOne();
+  }
 }
