@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { UserDB } from '../entity/User';
+import { Context } from '../types/context.types';
 export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -148,16 +149,16 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'],
 }>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
 }>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -167,7 +168,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = Context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
@@ -178,4 +179,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
 */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = Context> = Resolvers<ContextType>;
