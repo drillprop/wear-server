@@ -1,9 +1,9 @@
-import { UserDB } from '../../entity/User';
 import { Resolvers } from '../../generated/types';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { User } from '../../entity/User';
 
-const createUserToken = (user: UserDB) => {
+const createUserToken = (user: User) => {
   const { password, ...rest } = user;
   const secret = process.env.JWT_SECRET as string;
   return jwt.sign({ ...rest }, secret, {
@@ -14,18 +14,17 @@ const createUserToken = (user: UserDB) => {
 const userResolvers: Resolvers = {
   Query: {
     async users() {
-      const allUsers = await UserDB.find();
+      const allUsers = await User.find();
       return allUsers;
     }
   },
   Mutation: {
     async register(_, args) {
-      const { email, password, userName } = args.input;
+      const { email, password } = args.input;
       try {
         const hashPassword = await bcrypt.hash(password, 12);
-        const user = new UserDB();
+        const user = new User();
         user.email = email;
-        user.userName = userName;
         user.password = hashPassword;
         const token = createUserToken(user);
         user.token = token;
@@ -38,7 +37,7 @@ const userResolvers: Resolvers = {
     async login(_, args) {
       const { email, password } = args.input;
       try {
-        const user = await UserDB.findByEmail(email);
+        const user = await User.findByEmail(email);
         if (!user) {
           throw new Error('No user with these email');
         }

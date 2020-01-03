@@ -7,5 +7,4 @@ generates:
     config:
       useIndexSignature: true
       contextType: ../types/context.types#Context
-      mappers:
-        User: ../entity/User#UserDB
+      defaultMapper: any

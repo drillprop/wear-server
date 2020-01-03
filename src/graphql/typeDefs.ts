@@ -1,12 +1,7 @@
 import { gql } from 'apollo-server';
 
 export default gql`
-  input RegisterInput {
-    email: String!
-    userName: String!
-    password: String!
-  }
-  input LoginInput {
+  input SignInput {
     email: String!
     password: String!
   }
@@ -14,14 +9,13 @@ export default gql`
     users: [User]
   }
   type Mutation {
-    register(input: RegisterInput!): User!
-    login(input: LoginInput!): User!
+    register(input: SignInput!): User!
+    login(input: SignInput!): User!
   }
   type User {
     token: String!
     id: ID!
     email: String!
-    userName: String!
     password: String!
     firstName: String
     lastName: String

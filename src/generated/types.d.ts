@@ -1,5 +1,4 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { UserDB } from '../entity/User';
 import { Context } from '../types/context.types';
 export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -12,11 +11,6 @@ export type Scalars = {
   Float: number,
 };
 
-export type LoginInput = {
-  email: Scalars['String'],
-  password: Scalars['String'],
-};
-
 export type Mutation = {
    __typename?: 'Mutation',
   register: User,
@@ -25,12 +19,12 @@ export type Mutation = {
 
 
 export type MutationRegisterArgs = {
-  input: RegisterInput
+  input: SignInput
 };
 
 
 export type MutationLoginArgs = {
-  input: LoginInput
+  input: SignInput
 };
 
 export type Query = {
@@ -38,9 +32,8 @@ export type Query = {
   users?: Maybe<Array<Maybe<User>>>,
 };
 
-export type RegisterInput = {
+export type SignInput = {
   email: Scalars['String'],
-  userName: Scalars['String'],
   password: Scalars['String'],
 };
 
@@ -49,7 +42,6 @@ export type User = {
   token: Scalars['String'],
   id: Scalars['ID'],
   email: Scalars['String'],
-  userName: Scalars['String'],
   password: Scalars['String'],
   firstName?: Maybe<Scalars['String']>,
   lastName?: Maybe<Scalars['String']>,
@@ -128,25 +120,23 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
-  User: ResolverTypeWrapper<UserDB>,
-  String: ResolverTypeWrapper<Scalars['String']>,
-  ID: ResolverTypeWrapper<Scalars['ID']>,
+  User: ResolverTypeWrapper<any>,
+  String: ResolverTypeWrapper<any>,
+  ID: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
-  RegisterInput: RegisterInput,
-  LoginInput: LoginInput,
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  SignInput: ResolverTypeWrapper<any>,
+  Boolean: ResolverTypeWrapper<any>,
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {},
-  User: UserDB,
-  String: Scalars['String'],
-  ID: Scalars['ID'],
+  User: any,
+  String: any,
+  ID: any,
   Mutation: {},
-  RegisterInput: RegisterInput,
-  LoginInput: LoginInput,
-  Boolean: Scalars['Boolean'],
+  SignInput: any,
+  Boolean: any,
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
@@ -162,7 +152,6 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,

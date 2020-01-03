@@ -8,13 +8,9 @@ import {
 
 @Entity()
 @Unique(['email'])
-@Unique(['userName'])
-export class UserDB extends BaseEntity {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: number;
-
-  @Column()
-  userName!: string;
 
   @Column()
   email!: string;
