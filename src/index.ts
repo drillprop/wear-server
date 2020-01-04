@@ -13,10 +13,12 @@ import cors from 'cors';
 const startServer = async () => {
   const app = express();
 
+  const frontendUrl = process.env.FRONTEND_URL;
+
   app.use(
     cors({
       credentials: true,
-      origin: 'http://localhost:3000'
+      origin: frontendUrl
     })
   );
 
@@ -25,10 +27,10 @@ const startServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => req
+    context: ({ req, res }) => ({ req, res })
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   const connection = await createConnection(config);
   await connection.runMigrations();
