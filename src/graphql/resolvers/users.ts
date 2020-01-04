@@ -4,9 +4,8 @@ import jwt from 'jsonwebtoken';
 import { User } from '../../entity/User';
 
 const createUserToken = (user: User) => {
-  const { password, ...rest } = user;
   const secret = process.env.JWT_SECRET as string;
-  return jwt.sign({ ...rest }, secret, {
+  return jwt.sign({ id: user.id, email: user.email }, secret, {
     expiresIn: '7d'
   });
 };
@@ -47,7 +46,7 @@ const userResolvers: Resolvers = {
         }
         const token = createUserToken(user);
         user.token = token;
-        user.save();
+        await user.save();
         return user;
       } catch (error) {
         throw new Error(error);
