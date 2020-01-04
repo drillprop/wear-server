@@ -1,14 +1,7 @@
-import { Resolvers } from '../../generated/types';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { User } from '../../entity/User';
-
-const createUserToken = (user: User) => {
-  const secret = process.env.JWT_SECRET as string;
-  return jwt.sign({ id: user.id, email: user.email }, secret, {
-    expiresIn: '7d'
-  });
-};
+import { Resolvers } from '../../generated/types';
+import { createUserToken } from '../../utils/helpers';
 
 const userResolvers: Resolvers = {
   Query: {
