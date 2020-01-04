@@ -18,7 +18,7 @@ const userResolvers: Resolvers = {
     }
   },
   Mutation: {
-    async register(_, args) {
+    async register(_, args, { res }) {
       const { email, password } = args.input;
       try {
         const hashPassword = await bcrypt.hash(password, 12);
@@ -28,12 +28,16 @@ const userResolvers: Resolvers = {
         const token = createUserToken(user);
         user.token = token;
         await user.save();
+        res.cookie('token', token, {
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+          httpOnly: true
+        });
         return user;
       } catch (error) {
         throw new Error(error);
       }
     },
-    async login(_, args) {
+    async login(_, args, { res }) {
       const { email, password } = args.input;
       try {
         const user = await User.findByEmail(email);
@@ -47,6 +51,10 @@ const userResolvers: Resolvers = {
         const token = createUserToken(user);
         user.token = token;
         await user.save();
+        res.cookie('token', token, {
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+          httpOnly: true
+        });
         return user;
       } catch (error) {
         throw new Error(error);
