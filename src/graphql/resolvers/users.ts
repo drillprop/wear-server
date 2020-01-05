@@ -8,7 +8,7 @@ const userResolvers: Resolvers = {
     async users(_, __, { id }) {
       try {
         const user = await User.findById(id);
-        if (user?.permissions === 'ADMIN') {
+        if (user?.role === 'ADMIN') {
           const allUsers = await User.find();
           return allUsers;
         } else {
@@ -71,13 +71,13 @@ const userResolvers: Resolvers = {
       res.clearCookie('token');
       return { message: 'Successfully sign out' };
     },
-    async givePermission(_, { email, permissions }, { id }) {
+    async changeUserRole(_, { email, role }, { id }) {
       try {
         const userAdmin = await User.findById(id);
-        if (userAdmin?.permissions === 'ADMIN') {
+        if (userAdmin?.role === 'ADMIN') {
           const user = await User.findByEmail(email);
           if (user) {
-            user.permissions = permissions;
+            user.role = role;
             await user.save();
           } else {
             throw new Error('No user with this email');
@@ -86,7 +86,7 @@ const userResolvers: Resolvers = {
           throw new Error('You dont have permission to access list of users');
         }
         return {
-          message: `Succesfully set ${permissions} permission to ${email}`
+          message: `Succesfully set ${role} permission to ${email}`
         };
       } catch (error) {
         throw new Error(error);

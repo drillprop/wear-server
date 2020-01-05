@@ -16,7 +16,7 @@ export type Mutation = {
   register: User,
   login: User,
   signout?: Maybe<SuccessMessage>,
-  givePermission?: Maybe<SuccessMessage>,
+  changeUserRole?: Maybe<SuccessMessage>,
 };
 
 
@@ -30,16 +30,10 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationGivePermissionArgs = {
+export type MutationChangeUserRoleArgs = {
   email: Scalars['String'],
-  permissions: Permissions
+  role: UserRole
 };
-
-export enum Permissions {
-  Admin = 'ADMIN',
-  Employee = 'EMPLOYEE',
-  Customer = 'CUSTOMER'
-}
 
 export type Query = {
    __typename?: 'Query',
@@ -64,8 +58,14 @@ export type User = {
   password: Scalars['String'],
   firstName?: Maybe<Scalars['String']>,
   lastName?: Maybe<Scalars['String']>,
-  permissions: Permissions,
+  role: UserRole,
 };
+
+export enum UserRole {
+  Admin = 'ADMIN',
+  Employee = 'EMPLOYEE',
+  Customer = 'CUSTOMER'
+}
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -143,7 +143,7 @@ export type ResolversTypes = ResolversObject<{
   User: ResolverTypeWrapper<any>,
   ID: ResolverTypeWrapper<any>,
   String: ResolverTypeWrapper<any>,
-  Permissions: ResolverTypeWrapper<any>,
+  UserRole: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
@@ -156,7 +156,7 @@ export type ResolversParentTypes = ResolversObject<{
   User: any,
   ID: any,
   String: any,
-  Permissions: any,
+  UserRole: any,
   Mutation: {},
   SignInput: any,
   SuccessMessage: any,
@@ -167,7 +167,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
   signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,
-  givePermission?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationGivePermissionArgs, 'email' | 'permissions'>>,
+  changeUserRole?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationChangeUserRoleArgs, 'email' | 'role'>>,
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -185,7 +185,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  permissions?: Resolver<ResolversTypes['Permissions'], ParentType, ContextType>,
+  role?: Resolver<ResolversTypes['UserRole'], ParentType, ContextType>,
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{

@@ -6,6 +6,12 @@ import {
   BaseEntity
 } from 'typeorm';
 
+enum UserRole {
+  Admin = 'ADMIN',
+  Employee = 'EMPLOYEE',
+  Customer = 'CUSTOMER'
+}
+
 @Entity()
 @Unique(['email'])
 export class User extends BaseEntity {
@@ -24,8 +30,8 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column({ default: 'CUSTOMER' })
-  permissions: 'ADMIN' | 'EMPLOYEE' | 'CUSTOMER';
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.Customer })
+  role: UserRole;
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')

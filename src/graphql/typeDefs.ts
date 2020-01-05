@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  enum Permissions {
+  enum UserRole {
     ADMIN
     EMPLOYEE
     CUSTOMER
@@ -21,7 +21,7 @@ export default gql`
     register(input: SignInput!): User!
     login(input: SignInput!): User!
     signout: SuccessMessage
-    givePermission(email: String!, permissions: Permissions!): SuccessMessage
+    changeUserRole(email: String!, role: UserRole!): SuccessMessage
   }
   type User {
     id: ID!
@@ -29,6 +29,6 @@ export default gql`
     password: String!
     firstName: String
     lastName: String
-    permissions: Permissions!
+    role: UserRole!
   }
 `;
