@@ -59,6 +59,10 @@ const userResolvers: Resolvers = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    signout(_, __, { res }) {
+      res.clearCookie('token');
+      return { message: 'Successfully sign out' };
     }
   }
 };

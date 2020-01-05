@@ -5,6 +5,9 @@ export default gql`
     email: String!
     password: String!
   }
+  type SuccessMessage {
+    message: String
+  }
   type Query {
     users: [User]
     me: User
@@ -12,6 +15,7 @@ export default gql`
   type Mutation {
     register(input: SignInput!): User!
     login(input: SignInput!): User!
+    signout: SuccessMessage
   }
   type User {
     token: String!

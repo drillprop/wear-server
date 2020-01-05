@@ -15,6 +15,7 @@ export type Mutation = {
    __typename?: 'Mutation',
   register: User,
   login: User,
+  signout?: Maybe<SuccessMessage>,
 };
 
 
@@ -36,6 +37,11 @@ export type Query = {
 export type SignInput = {
   email: Scalars['String'],
   password: Scalars['String'],
+};
+
+export type SuccessMessage = {
+   __typename?: 'SuccessMessage',
+  message?: Maybe<Scalars['String']>,
 };
 
 export type User = {
@@ -126,6 +132,7 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SignInput: ResolverTypeWrapper<any>,
+  SuccessMessage: ResolverTypeWrapper<any>,
   Boolean: ResolverTypeWrapper<any>,
 }>;
 
@@ -137,17 +144,23 @@ export type ResolversParentTypes = ResolversObject<{
   ID: any,
   Mutation: {},
   SignInput: any,
+  SuccessMessage: any,
   Boolean: any,
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
+  signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+}>;
+
+export type SuccessMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SuccessMessage'] = ResolversParentTypes['SuccessMessage']> = ResolversObject<{
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 }>;
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
@@ -162,6 +175,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 export type Resolvers<ContextType = Context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
+  SuccessMessage?: SuccessMessageResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
 }>;
 
