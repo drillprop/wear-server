@@ -21,6 +21,7 @@ export default gql`
     register(input: SignInput!): User!
     login(input: SignInput!): User!
     signout: SuccessMessage
+    givePermission(email: String!, permissions: Permissions!): SuccessMessage
   }
   type User {
     id: ID!

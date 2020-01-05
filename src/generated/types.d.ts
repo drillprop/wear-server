@@ -16,6 +16,7 @@ export type Mutation = {
   register: User,
   login: User,
   signout?: Maybe<SuccessMessage>,
+  givePermission?: Maybe<SuccessMessage>,
 };
 
 
@@ -26,6 +27,12 @@ export type MutationRegisterArgs = {
 
 export type MutationLoginArgs = {
   input: SignInput
+};
+
+
+export type MutationGivePermissionArgs = {
+  email: Scalars['String'],
+  permissions: Permissions
 };
 
 export enum Permissions {
@@ -160,6 +167,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
   signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,
+  givePermission?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationGivePermissionArgs, 'email' | 'permissions'>>,
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{

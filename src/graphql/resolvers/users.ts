@@ -6,12 +6,16 @@ import { createUserToken } from '../../utils/helpers';
 const userResolvers: Resolvers = {
   Query: {
     async users(_, __, { id }) {
-      const user = await User.findById(id);
-      if (user?.permissions === 'ADMIN') {
-        const allUsers = await User.find();
-        return allUsers;
-      } else {
-        throw new Error('You dont have permission to access list of users');
+      try {
+        const user = await User.findById(id);
+        if (user?.permissions === 'ADMIN') {
+          const allUsers = await User.find();
+          return allUsers;
+        } else {
+          throw new Error('You dont have permission to access list of users');
+        }
+      } catch (error) {
+        throw new Error(error);
       }
     },
     async me(_, __, { id }) {
@@ -46,7 +50,7 @@ const userResolvers: Resolvers = {
       try {
         const user = await User.findByEmail(email);
         if (!user) {
-          throw new Error('No user with these email');
+          throw new Error('No user with this email');
         }
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
@@ -66,6 +70,27 @@ const userResolvers: Resolvers = {
     signout(_, __, { res }) {
       res.clearCookie('token');
       return { message: 'Successfully sign out' };
+    },
+    async givePermission(_, { email, permissions }, { id }) {
+      try {
+        const userAdmin = await User.findById(id);
+        if (userAdmin?.permissions === 'ADMIN') {
+          const user = await User.findByEmail(email);
+          if (user) {
+            user.permissions = permissions;
+            await user.save();
+          } else {
+            throw new Error('No user with this email');
+          }
+        } else {
+          throw new Error('You dont have permission to access list of users');
+        }
+        return {
+          message: `Succesfully set ${permissions} permission to ${email}`
+        };
+      } catch (error) {
+        throw new Error(error);
+      }
     }
   }
 };
