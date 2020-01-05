@@ -5,9 +5,14 @@ import { createUserToken } from '../../utils/helpers';
 
 const userResolvers: Resolvers = {
   Query: {
-    async users() {
-      const allUsers = await User.find();
-      return allUsers;
+    async users(_, __, { id }) {
+      const user = await User.findById(id);
+      if (user?.permissions === 'ADMIN') {
+        const allUsers = await User.find();
+        return allUsers;
+      } else {
+        throw new Error('You dont have permission to access list of users');
+      }
     },
     async me(_, __, { id }) {
       const user = await User.findById(id);
