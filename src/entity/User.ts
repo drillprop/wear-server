@@ -24,8 +24,8 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column({ nullable: true })
-  token: string;
+  @Column({ default: 'CUSTOMER' })
+  permissions: 'ADMIN' | 'EMPLOYEE' | 'CUSTOMER';
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')

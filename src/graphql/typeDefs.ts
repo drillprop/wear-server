@@ -1,6 +1,11 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  enum Permissions {
+    ADMIN
+    EMPLOYEE
+    CUSTOMER
+  }
   input SignInput {
     email: String!
     password: String!
@@ -18,11 +23,11 @@ export default gql`
     signout: SuccessMessage
   }
   type User {
-    token: String!
     id: ID!
     email: String!
     password: String!
     firstName: String
     lastName: String
+    permissions: Permissions!
   }
 `;

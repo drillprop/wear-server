@@ -28,6 +28,12 @@ export type MutationLoginArgs = {
   input: SignInput
 };
 
+export enum Permissions {
+  Admin = 'ADMIN',
+  Employee = 'EMPLOYEE',
+  Customer = 'CUSTOMER'
+}
+
 export type Query = {
    __typename?: 'Query',
   users?: Maybe<Array<Maybe<User>>>,
@@ -46,12 +52,12 @@ export type SuccessMessage = {
 
 export type User = {
    __typename?: 'User',
-  token: Scalars['String'],
   id: Scalars['ID'],
   email: Scalars['String'],
   password: Scalars['String'],
   firstName?: Maybe<Scalars['String']>,
   lastName?: Maybe<Scalars['String']>,
+  permissions: Permissions,
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -128,8 +134,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
   User: ResolverTypeWrapper<any>,
-  String: ResolverTypeWrapper<any>,
   ID: ResolverTypeWrapper<any>,
+  String: ResolverTypeWrapper<any>,
+  Permissions: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
@@ -140,8 +147,9 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Query: {},
   User: any,
-  String: any,
   ID: any,
+  String: any,
+  Permissions: any,
   Mutation: {},
   SignInput: any,
   SuccessMessage: any,
@@ -164,12 +172,12 @@ export type SuccessMessageResolvers<ContextType = Context, ParentType extends Re
 }>;
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  permissions?: Resolver<ResolversTypes['Permissions'], ParentType, ContextType>,
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
