@@ -15,7 +15,7 @@ export class User extends BaseEntity {
   @Column()
   email!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @Column({ nullable: true })
@@ -28,8 +28,15 @@ export class User extends BaseEntity {
   token: string;
 
   static findByEmail(email: string) {
-    return this.createQueryBuilder('user_db')
-      .where('user_db.email = :email', { email })
+    return this.createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .addSelect('user.password')
+      .getOne();
+  }
+
+  static findById(id: string) {
+    return this.createQueryBuilder('user')
+      .where('user.id = :id', { id })
       .getOne();
   }
 }
