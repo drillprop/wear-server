@@ -8,6 +8,13 @@ const userResolvers: Resolvers = {
     async users() {
       const allUsers = await User.find();
       return allUsers;
+    },
+    async me(_, __, { id }) {
+      const user = await User.findById(id);
+      if (user) {
+        return user;
+      }
+      return null;
     }
   },
   Mutation: {

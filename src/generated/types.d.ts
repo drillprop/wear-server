@@ -30,6 +30,7 @@ export type MutationLoginArgs = {
 export type Query = {
    __typename?: 'Query',
   users?: Maybe<Array<Maybe<User>>>,
+  me?: Maybe<User>,
 };
 
 export type SignInput = {
@@ -146,6 +147,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
 }>;
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{

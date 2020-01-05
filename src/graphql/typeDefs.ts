@@ -7,6 +7,7 @@ export default gql`
   }
   type Query {
     users: [User]
+    me: User
   }
   type Mutation {
     register(input: SignInput!): User!
