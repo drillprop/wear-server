@@ -2,22 +2,27 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   scalar Date
+
   enum UserRole {
     ADMIN
     EMPLOYEE
     CUSTOMER
   }
+
+  type SuccessMessage {
+    message: String
+  }
+
   input SignInput {
     email: String!
     password: String!
   }
-  type SuccessMessage {
-    message: String
-  }
+
   type Query {
     users: [User]
     me: User
   }
+
   type Mutation {
     register(input: SignInput!): User!
     login(input: SignInput!): User!
@@ -25,6 +30,7 @@ export default gql`
     changeUserRole(email: String!, role: UserRole!): SuccessMessage
     deleteAccount(password: String!): SuccessMessage
   }
+
   type User {
     id: ID!
     email: String!
@@ -33,5 +39,15 @@ export default gql`
     lastName: String
     role: UserRole!
     createdAt: Date!
+  }
+
+  type Item {
+    id: ID!
+    name: String!
+    price: Int!
+    imageUrl: String!
+    category: String
+    createdAt: Date!
+    updatedAt: Date
   }
 `;
