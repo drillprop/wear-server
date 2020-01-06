@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  scalar Date
   enum UserRole {
     ADMIN
     EMPLOYEE
@@ -30,5 +31,6 @@ export default gql`
     firstName: String
     lastName: String
     role: UserRole!
+    createdAt: Date!
   }
 `;

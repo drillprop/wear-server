@@ -5,6 +5,8 @@ generates:
       - typescript
       - typescript-resolvers
     config:
-      useIndexSignature: true
+      useIndexSignature: true,
+      scalars:
+        Date: Date
       contextType: ../types/context.types#Context
       defaultMapper: any

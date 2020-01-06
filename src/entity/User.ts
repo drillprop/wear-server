@@ -3,7 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Unique,
-  BaseEntity
+  BaseEntity,
+  CreateDateColumn
 } from 'typeorm';
 
 enum UserRole {
@@ -32,6 +33,9 @@ export class User extends BaseEntity {
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.Customer })
   role: UserRole;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')

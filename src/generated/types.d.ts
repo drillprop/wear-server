@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { Context } from '../types/context.types';
 export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -9,7 +9,9 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  Date: Date,
 };
+
 
 export type Mutation = {
    __typename?: 'Mutation',
@@ -59,6 +61,7 @@ export type User = {
   firstName?: Maybe<Scalars['String']>,
   lastName?: Maybe<Scalars['String']>,
   role: UserRole,
+  createdAt: Scalars['Date'],
 };
 
 export enum UserRole {
@@ -144,6 +147,7 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<any>,
   String: ResolverTypeWrapper<any>,
   UserRole: ResolverTypeWrapper<any>,
+  Date: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
@@ -157,11 +161,16 @@ export type ResolversParentTypes = ResolversObject<{
   ID: any,
   String: any,
   UserRole: any,
+  Date: any,
   Mutation: {},
   SignInput: any,
   SuccessMessage: any,
   Boolean: any,
 }>;
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date'
+}
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
@@ -186,9 +195,11 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   role?: Resolver<ResolversTypes['UserRole'], ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
+  Date?: GraphQLScalarType,
   Mutation?: MutationResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   SuccessMessage?: SuccessMessageResolvers<ContextType>,
