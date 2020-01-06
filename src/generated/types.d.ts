@@ -24,13 +24,26 @@ export type Item = {
   updatedAt?: Maybe<Scalars['Date']>,
 };
 
+export type ItemInput = {
+  name: Scalars['String'],
+  price: Scalars['Int'],
+  imageUrl: Scalars['String'],
+  category: Scalars['String'],
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
+  createItem: Item,
   register: User,
   login: User,
   signout?: Maybe<SuccessMessage>,
   changeUserRole?: Maybe<SuccessMessage>,
   deleteAccount?: Maybe<SuccessMessage>,
+};
+
+
+export type MutationCreateItemArgs = {
+  input: ItemInput
 };
 
 
@@ -166,11 +179,12 @@ export type ResolversTypes = ResolversObject<{
   UserRole: ResolverTypeWrapper<any>,
   Date: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
+  ItemInput: ResolverTypeWrapper<any>,
+  Int: ResolverTypeWrapper<any>,
+  Item: ResolverTypeWrapper<any>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
   Boolean: ResolverTypeWrapper<any>,
-  Item: ResolverTypeWrapper<any>,
-  Int: ResolverTypeWrapper<any>,
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -182,11 +196,12 @@ export type ResolversParentTypes = ResolversObject<{
   UserRole: any,
   Date: any,
   Mutation: {},
+  ItemInput: any,
+  Int: any,
+  Item: any,
   SignInput: any,
   SuccessMessage: any,
   Boolean: any,
-  Item: any,
-  Int: any,
 }>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -204,6 +219,7 @@ export type ItemResolvers<ContextType = Context, ParentType extends ResolversPar
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createItem?: Resolver<ResolversTypes['Item'], ParentType, ContextType, RequireFields<MutationCreateItemArgs, 'input'>>,
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
   signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,

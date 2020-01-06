@@ -6,10 +6,9 @@ import 'dotenv/config';
 import express from 'express';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/typeDefs';
 import { config } from './ormconfig';
 import { getIdFromToken } from './utils/helpers';
+import schema from './graphql/schema';
 
 const startServer = async () => {
   const app = express();
@@ -26,8 +25,7 @@ const startServer = async () => {
   app.use('/graphql', bodyParser.json(), cookieParser());
 
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     context: ({ req, res }) => {
       const id = getIdFromToken(req);
       return { req, res, id };
