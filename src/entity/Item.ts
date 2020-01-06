@@ -3,8 +3,11 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  Column
+  Column,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class Item extends BaseEntity {
@@ -22,6 +25,12 @@ export class Item extends BaseEntity {
 
   @Column()
   category: string;
+
+  @ManyToOne(
+    () => User,
+    user => user.items
+  )
+  user: User;
 
   @CreateDateColumn()
   createdAt!: Date;

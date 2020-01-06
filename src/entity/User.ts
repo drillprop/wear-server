@@ -4,8 +4,12 @@ import {
   Column,
   Unique,
   BaseEntity,
-  CreateDateColumn
+  CreateDateColumn,
+  OneToMany,
+  JoinColumn,
+  JoinTable
 } from 'typeorm';
+import { Item } from './Item';
 
 enum UserRole {
   Admin = 'ADMIN',
@@ -36,6 +40,12 @@ export class User extends BaseEntity {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @OneToMany(
+    () => Item,
+    item => item.user
+  )
+  items: Item[];
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')
