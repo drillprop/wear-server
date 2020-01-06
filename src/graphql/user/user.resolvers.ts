@@ -12,10 +12,10 @@ const userResolvers: Resolvers = {
           const allUsers = await User.find();
           return allUsers;
         } else {
-          throw new Error('You dont have permission to access list of users');
+          throw Error('You dont have permission to access list of users');
         }
       } catch (error) {
-        throw new Error(error);
+        throw Error(error);
       }
     },
     async me(_, __, { id }) {
@@ -31,9 +31,10 @@ const userResolvers: Resolvers = {
       const { email, password } = args.input;
       try {
         const hashPassword = await bcrypt.hash(password, 12);
-        const user = new User();
-        user.email = email;
-        user.password = hashPassword;
+        const user = User.create({
+          email,
+          password: hashPassword
+        });
         await user.save();
         const token = createUserToken(user);
         res.cookie('token', token, {
@@ -42,7 +43,7 @@ const userResolvers: Resolvers = {
         });
         return user;
       } catch (error) {
-        throw new Error(error);
+        throw Error(error);
       }
     },
     async login(_, args, { res }) {
@@ -50,11 +51,11 @@ const userResolvers: Resolvers = {
       try {
         const user = await User.findByEmail(email);
         if (!user) {
-          throw new Error('No user with this email');
+          throw Error('No user with this email');
         }
 
         const match = await checkPassword(password, user.password);
-        if (!match) throw new Error('Wrong Password');
+        if (!match) throw Error('Wrong Password');
 
         const token = createUserToken(user);
         res.cookie('token', token, {
@@ -63,7 +64,7 @@ const userResolvers: Resolvers = {
         });
         return user;
       } catch (error) {
-        throw new Error(error);
+        throw Error(error);
       }
     },
     signout(_, __, { res }) {
@@ -79,27 +80,27 @@ const userResolvers: Resolvers = {
             user.role = role;
             await user.save();
           } else {
-            throw new Error('No user with this email');
+            throw Error('No user with this email');
           }
         } else {
-          throw new Error('You dont have permission to access list of users');
+          throw Error('You dont have permission to access list of users');
         }
         return {
           message: `Succesfully set ${role} permission to ${email}`
         };
       } catch (error) {
-        throw new Error(error);
+        throw Error(error);
       }
     },
     async deleteAccount(_, { password }, { id, res }) {
       const user = await User.findById(id);
       if (!user) {
-        throw new Error('You must be logged in');
+        throw Error('You must be logged in');
       }
 
       const match = await checkPassword(password, user.password);
       if (!match) {
-        throw new Error('Wrong Password');
+        throw Error('Wrong Password');
       }
 
       await User.delete(id);

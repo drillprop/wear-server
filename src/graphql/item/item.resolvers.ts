@@ -11,16 +11,11 @@ const itemResolvers: Resolvers = {
           throw Error('You need to login to add create item');
         }
         const { name, imageUrl, price, category } = input;
-        const item = new Item();
-        item.imageUrl = imageUrl;
-        item.name = name;
-        item.price = price;
-        item.category = category;
-        item.user = user;
+        const item = Item.create({ imageUrl, name, price, category, user });
         await item.save();
         return item;
       } catch (error) {
-        throw new Error(error);
+        throw Error(error);
       }
     }
   }
