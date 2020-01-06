@@ -23,6 +23,7 @@ export default gql`
     login(input: SignInput!): User!
     signout: SuccessMessage
     changeUserRole(email: String!, role: UserRole!): SuccessMessage
+    deleteAccount(password: String!): SuccessMessage
   }
   type User {
     id: ID!

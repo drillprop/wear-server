@@ -19,6 +19,7 @@ export type Mutation = {
   login: User,
   signout?: Maybe<SuccessMessage>,
   changeUserRole?: Maybe<SuccessMessage>,
+  deleteAccount?: Maybe<SuccessMessage>,
 };
 
 
@@ -35,6 +36,11 @@ export type MutationLoginArgs = {
 export type MutationChangeUserRoleArgs = {
   email: Scalars['String'],
   role: UserRole
+};
+
+
+export type MutationDeleteAccountArgs = {
+  password: Scalars['String']
 };
 
 export type Query = {
@@ -177,6 +183,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
   signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,
   changeUserRole?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationChangeUserRoleArgs, 'email' | 'role'>>,
+  deleteAccount?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationDeleteAccountArgs, 'password'>>,
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{

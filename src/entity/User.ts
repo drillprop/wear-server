@@ -47,6 +47,7 @@ export class User extends BaseEntity {
   static findById(id: string) {
     return this.createQueryBuilder('user')
       .where('user.id = :id', { id })
+      .addSelect('user.password')
       .getOne();
   }
 }

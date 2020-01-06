@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { User } from '../../entity/User';
 import { Resolvers } from '../../generated/types';
-import { createUserToken } from '../../utils/helpers';
+import { createUserToken, checkPassword } from '../../utils/helpers';
 
 const userResolvers: Resolvers = {
   Query: {
@@ -52,11 +52,10 @@ const userResolvers: Resolvers = {
         if (!user) {
           throw new Error('No user with this email');
         }
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-          throw new Error('Wrong password');
-        }
-        await user.save();
+
+        const match = await checkPassword(password, user.password);
+        if (!match) throw new Error('Wrong Password');
+
         const token = createUserToken(user);
         res.cookie('token', token, {
           maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -91,6 +90,24 @@ const userResolvers: Resolvers = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    async deleteAccount(_, { password }, { id, res }) {
+      const user = await User.findById(id);
+      if (!user) {
+        throw new Error('You must be logged in');
+      }
+
+      const match = await checkPassword(password, user.password);
+      if (!match) {
+        throw new Error('Wrong Password');
+      }
+
+      await User.delete(id);
+      res.clearCookie('token');
+
+      return {
+        message: 'Successfully deleted account'
+      };
     }
   }
 };
