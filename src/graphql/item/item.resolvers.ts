@@ -27,15 +27,7 @@ const itemResolvers: Resolvers = {
       try {
         const { input } = args;
         if (input) {
-          const { column, argument, take, skip, order, orderBy } = input;
-          const search = await Item.searchItems(
-            column!,
-            argument!,
-            take!,
-            skip!,
-            orderBy!,
-            order!
-          );
+          const search = await Item.searchItems(input);
           return search;
         }
         const items = await Item.find();

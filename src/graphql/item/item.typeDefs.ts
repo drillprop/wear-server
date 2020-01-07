@@ -8,18 +8,13 @@ export default gql`
     category: String!
   }
 
-  enum OrderDirection {
-    ASC
-    DESC
-  }
-
   input ItemWhereInput {
     column: String
     argument: String
     take: Int
     skip: Int
     orderBy: String
-    order: OrderDirection
+    desc: Boolean
   }
 
   extend type Mutation {

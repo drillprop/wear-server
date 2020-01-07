@@ -8,6 +8,15 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
+interface SearchItemsParams {
+  column?: string | null;
+  argument?: string | null;
+  take?: number | null;
+  skip?: number | null;
+  orderBy?: string | null;
+  desc?: boolean | null;
+}
+
 @Entity()
 export class Item extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -37,21 +46,19 @@ export class Item extends BaseEntity {
   @CreateDateColumn()
   updatedAt: Date;
 
-  static searchItems(
-    column?: string,
-    argument?: string,
-    take?: number,
-    skip?: number,
-    orderBy?: string,
-    order?: 'ASC' | 'DESC'
-  ) {
-    return this.createQueryBuilder('item')
-      .where(column ? `item.${column} ilike '%' || :name || '%'` : '', {
+  static searchItems(params: SearchItemsParams) {
+    const queryBuilder = this.createQueryBuilder('item');
+    const { column, argument, skip, take, orderBy, desc } = params;
+
+    if (column && argument) {
+      queryBuilder.where(`item.${column} ilike '%' || :name || '%'`, {
         name: argument
-      })
-      .skip(skip)
-      .take(take)
-      .orderBy(orderBy ? orderBy : '', order)
-      .getMany();
+      });
+    }
+    if (skip) queryBuilder.skip(skip);
+    if (take) queryBuilder.take(take);
+    if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
+
+    return queryBuilder.getMany();
   }
 }

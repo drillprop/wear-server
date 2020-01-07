@@ -37,7 +37,7 @@ export type ItemWhereInput = {
   take?: Maybe<Scalars['Int']>,
   skip?: Maybe<Scalars['Int']>,
   orderBy?: Maybe<Scalars['String']>,
-  order?: Maybe<OrderDirection>,
+  desc?: Maybe<Scalars['Boolean']>,
 };
 
 export type Mutation = {
@@ -75,11 +75,6 @@ export type MutationChangeUserRoleArgs = {
 export type MutationDeleteAccountArgs = {
   password: Scalars['String']
 };
-
-export enum OrderDirection {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
 
 export type Query = {
    __typename?: 'Query',
@@ -196,7 +191,7 @@ export type ResolversTypes = ResolversObject<{
   ItemWhereInput: ResolverTypeWrapper<any>,
   String: ResolverTypeWrapper<any>,
   Int: ResolverTypeWrapper<any>,
-  OrderDirection: ResolverTypeWrapper<any>,
+  Boolean: ResolverTypeWrapper<any>,
   Item: ResolverTypeWrapper<any>,
   ID: ResolverTypeWrapper<any>,
   Date: ResolverTypeWrapper<any>,
@@ -206,7 +201,6 @@ export type ResolversTypes = ResolversObject<{
   CreateItemInput: ResolverTypeWrapper<any>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
-  Boolean: ResolverTypeWrapper<any>,
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -215,7 +209,7 @@ export type ResolversParentTypes = ResolversObject<{
   ItemWhereInput: any,
   String: any,
   Int: any,
-  OrderDirection: any,
+  Boolean: any,
   Item: any,
   ID: any,
   Date: any,
@@ -225,7 +219,6 @@ export type ResolversParentTypes = ResolversObject<{
   CreateItemInput: any,
   SignInput: any,
   SuccessMessage: any,
-  Boolean: any,
 }>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
