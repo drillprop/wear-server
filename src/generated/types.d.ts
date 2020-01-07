@@ -38,6 +38,8 @@ export type ItemWhereInput = {
   skip?: Maybe<Scalars['Int']>,
   orderBy?: Maybe<Scalars['String']>,
   desc?: Maybe<Scalars['Boolean']>,
+  priceFrom?: Maybe<Scalars['Int']>,
+  priceTo?: Maybe<Scalars['Int']>,
 };
 
 export type Mutation = {

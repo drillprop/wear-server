@@ -15,6 +15,8 @@ export default gql`
     skip: Int
     orderBy: String
     desc: Boolean
+    priceFrom: Int
+    priceTo: Int
   }
 
   extend type Mutation {
