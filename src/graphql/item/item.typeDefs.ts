@@ -1,19 +1,33 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  input ItemInput {
+  input CreateItemInput {
     name: String!
     price: Int!
     imageUrl: String!
     category: String!
   }
 
+  enum OrderDirection {
+    ASC
+    DESC
+  }
+
+  input ItemWhereInput {
+    column: String
+    argument: String
+    take: Int
+    skip: Int
+    orderBy: String
+    order: OrderDirection
+  }
+
   extend type Mutation {
-    createItem(input: ItemInput!): Item!
+    createItem(input: CreateItemInput!): Item!
   }
 
   extend type Query {
-    items: [Item]!
+    items(input: ItemWhereInput): [Item]!
   }
 
   type Item {

@@ -12,6 +12,13 @@ export type Scalars = {
   Date: Date,
 };
 
+export type CreateItemInput = {
+  name: Scalars['String'],
+  price: Scalars['Int'],
+  imageUrl: Scalars['String'],
+  category: Scalars['String'],
+};
+
 
 export type Item = {
    __typename?: 'Item',
@@ -24,11 +31,13 @@ export type Item = {
   updatedAt?: Maybe<Scalars['Date']>,
 };
 
-export type ItemInput = {
-  name: Scalars['String'],
-  price: Scalars['Int'],
-  imageUrl: Scalars['String'],
-  category: Scalars['String'],
+export type ItemWhereInput = {
+  column?: Maybe<Scalars['String']>,
+  argument?: Maybe<Scalars['String']>,
+  take?: Maybe<Scalars['Int']>,
+  skip?: Maybe<Scalars['Int']>,
+  orderBy?: Maybe<Scalars['String']>,
+  order?: Maybe<OrderDirection>,
 };
 
 export type Mutation = {
@@ -43,7 +52,7 @@ export type Mutation = {
 
 
 export type MutationCreateItemArgs = {
-  input: ItemInput
+  input: CreateItemInput
 };
 
 
@@ -67,11 +76,21 @@ export type MutationDeleteAccountArgs = {
   password: Scalars['String']
 };
 
+export enum OrderDirection {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
 export type Query = {
    __typename?: 'Query',
   items: Array<Maybe<Item>>,
   users?: Maybe<Array<Maybe<User>>>,
   me?: Maybe<User>,
+};
+
+
+export type QueryItemsArgs = {
+  input?: Maybe<ItemWhereInput>
 };
 
 export type SignInput = {
@@ -174,15 +193,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
-  Item: ResolverTypeWrapper<any>,
-  ID: ResolverTypeWrapper<any>,
+  ItemWhereInput: ResolverTypeWrapper<any>,
   String: ResolverTypeWrapper<any>,
   Int: ResolverTypeWrapper<any>,
+  OrderDirection: ResolverTypeWrapper<any>,
+  Item: ResolverTypeWrapper<any>,
+  ID: ResolverTypeWrapper<any>,
   Date: ResolverTypeWrapper<any>,
   User: ResolverTypeWrapper<any>,
   UserRole: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
-  ItemInput: ResolverTypeWrapper<any>,
+  CreateItemInput: ResolverTypeWrapper<any>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
   Boolean: ResolverTypeWrapper<any>,
@@ -191,15 +212,17 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {},
-  Item: any,
-  ID: any,
+  ItemWhereInput: any,
   String: any,
   Int: any,
+  OrderDirection: any,
+  Item: any,
+  ID: any,
   Date: any,
   User: any,
   UserRole: any,
   Mutation: {},
-  ItemInput: any,
+  CreateItemInput: any,
   SignInput: any,
   SuccessMessage: any,
   Boolean: any,
@@ -229,7 +252,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  items?: Resolver<Array<Maybe<ResolversTypes['Item']>>, ParentType, ContextType>,
+  items?: Resolver<Array<Maybe<ResolversTypes['Item']>>, ParentType, ContextType, QueryItemsArgs>,
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
 }>;

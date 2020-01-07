@@ -23,8 +23,21 @@ const itemResolvers: Resolvers = {
     }
   },
   Query: {
-    async items() {
+    async items(_, args) {
       try {
+        const { input } = args;
+        if (input) {
+          const { column, argument, take, skip, order, orderBy } = input;
+          const search = await Item.searchItems(
+            column!,
+            argument!,
+            take!,
+            skip!,
+            orderBy!,
+            order!
+          );
+          return search;
+        }
         const items = await Item.find();
         return items;
       } catch (error) {

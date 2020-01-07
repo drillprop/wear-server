@@ -4,8 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn
+  ManyToOne
 } from 'typeorm';
 import { User } from './User';
 
@@ -37,4 +36,22 @@ export class Item extends BaseEntity {
 
   @CreateDateColumn()
   updatedAt: Date;
+
+  static searchItems(
+    column?: string,
+    argument?: string,
+    take?: number,
+    skip?: number,
+    orderBy?: string,
+    order?: 'ASC' | 'DESC'
+  ) {
+    return this.createQueryBuilder('item')
+      .where(column ? `item.${column} ilike '%' || :name || '%'` : '', {
+        name: argument
+      })
+      .skip(skip)
+      .take(take)
+      .orderBy(orderBy ? orderBy : '', order)
+      .getMany();
+  }
 }
