@@ -8,7 +8,10 @@ const itemResolvers: Resolvers = {
       try {
         const user = await User.findById(id);
         if (!user) {
-          throw Error('You need to login to add create item');
+          throw Error('You have to login to add an item');
+        }
+        if (user.role === 'CUSTOMER') {
+          throw Error(`You don't have permission to create an item`);
         }
         const { name, imageUrl, price, category } = input;
         const item = Item.create({ imageUrl, name, price, category, user });
