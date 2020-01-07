@@ -18,6 +18,16 @@ const itemResolvers: Resolvers = {
         throw Error(error);
       }
     }
+  },
+  Query: {
+    async items() {
+      try {
+        const items = await Item.find();
+        return items;
+      } catch (error) {
+        throw Error(error);
+      }
+    }
   }
 };
 

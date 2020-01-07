@@ -11,6 +11,11 @@ export default gql`
   extend type Mutation {
     createItem(input: ItemInput!): Item!
   }
+
+  extend type Query {
+    items: [Item]!
+  }
+
   type Item {
     id: ID!
     name: String!

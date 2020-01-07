@@ -69,6 +69,7 @@ export type MutationDeleteAccountArgs = {
 
 export type Query = {
    __typename?: 'Query',
+  items: Array<Maybe<Item>>,
   users?: Maybe<Array<Maybe<User>>>,
   me?: Maybe<User>,
 };
@@ -173,15 +174,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
-  User: ResolverTypeWrapper<any>,
+  Item: ResolverTypeWrapper<any>,
   ID: ResolverTypeWrapper<any>,
   String: ResolverTypeWrapper<any>,
-  UserRole: ResolverTypeWrapper<any>,
+  Int: ResolverTypeWrapper<any>,
   Date: ResolverTypeWrapper<any>,
+  User: ResolverTypeWrapper<any>,
+  UserRole: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   ItemInput: ResolverTypeWrapper<any>,
-  Int: ResolverTypeWrapper<any>,
-  Item: ResolverTypeWrapper<any>,
   SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
   Boolean: ResolverTypeWrapper<any>,
@@ -190,15 +191,15 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {},
-  User: any,
+  Item: any,
   ID: any,
   String: any,
-  UserRole: any,
+  Int: any,
   Date: any,
+  User: any,
+  UserRole: any,
   Mutation: {},
   ItemInput: any,
-  Int: any,
-  Item: any,
   SignInput: any,
   SuccessMessage: any,
   Boolean: any,
@@ -228,6 +229,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  items?: Resolver<Array<Maybe<ResolversTypes['Item']>>, ParentType, ContextType>,
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
 }>;
