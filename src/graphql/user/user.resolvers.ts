@@ -7,7 +7,7 @@ import SuccessMessage from '../sharedTypeDefs';
 
 @Resolver()
 export default class UserResolver {
-  @Query(() => [User])
+  @Query(() => [User], { nullable: 'items' })
   async users(@Ctx() { userId }: Context) {
     try {
       const user = await User.findById(userId);
@@ -21,7 +21,7 @@ export default class UserResolver {
       throw Error(error);
     }
   }
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   async me(@Ctx() { userId }: Context) {
     const user = await User.findById(userId);
     if (user) {
