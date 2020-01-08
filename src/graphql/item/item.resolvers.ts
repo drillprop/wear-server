@@ -1,9 +1,9 @@
-import { Arg, Ctx, Mutation, Resolver, Query, Authorized } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Item } from '../../entity/Item';
-import { User, UserRole } from '../../entity/User';
+import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import SuccessMessage from '../sharedTypeDefs';
-import { CreateItemInput, SearchItemInput, EditItemInput } from './item.inputs';
+import { CreateItemInput, EditItemInput, SearchItemInput } from './item.inputs';
 
 @Resolver()
 export default class ItemResolver {
@@ -55,11 +55,12 @@ export default class ItemResolver {
   @Authorized(['ADMIN', 'EMPLOYEE'])
   @Mutation(() => Item)
   async updateItem(@Arg('input') input: EditItemInput) {
-    const { id } = input;
+    const { id, ...rest } = input;
+    const itemRepository = Item.getRepository();
     try {
       const item = await Item.findOne(id);
       if (!item) throw Error('No such item');
-      const updateItem = await Item.updateItemAndReturn(input);
+      const updateItem = await itemRepository.save({ ...item, ...rest });
       return updateItem;
     } catch (error) {
       throw Error(error);

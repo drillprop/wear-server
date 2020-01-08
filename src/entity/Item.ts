@@ -80,18 +80,4 @@ export class Item extends BaseEntity {
 
     return queryBuilder.getMany();
   }
-  static async updateItemAndReturn(params: EditItemInput) {
-    const { id, ...rest } = params;
-    try {
-      await this.createQueryBuilder()
-        .update()
-        .set({ ...rest })
-        .where('id = :id', { id })
-        .execute();
-      const updatedItem = await this.findOne(id);
-      return updatedItem;
-    } catch (error) {
-      throw Error(error);
-    }
-  }
 }
