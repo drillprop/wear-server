@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/graphql": "^14.5.0",
     "apollo-server-express": "^2.9.15",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
@@ -24,12 +25,10 @@
     "lodash.merge": "^4.6.2",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
+    "type-graphql": "^0.17.6",
     "typeorm": "0.2.21"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.9.1",
-    "@graphql-codegen/typescript": "^1.9.1",
-    "@graphql-codegen/typescript-resolvers": "^1.9.1",
     "@types/bcrypt": "^3.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/jsonwebtoken": "^8.3.5",

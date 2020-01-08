@@ -1,19 +1,24 @@
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
-import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import { config } from './ormconfig';
 import { getIdFromToken } from './utils/helpers';
-import schema from './graphql/schema';
+import { buildSchema } from 'type-graphql';
+import UserResolver from './graphql/user/user.resolvers';
 
 const startServer = async () => {
   const app = express();
 
   const frontendUrl = process.env.FRONTEND_URL;
+
+  const schema = await buildSchema({
+    resolvers: [UserResolver]
+  });
 
   app.use(
     cors({
