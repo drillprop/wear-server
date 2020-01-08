@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { SearchItemInput } from '../graphql/item/item.inputs';
+import { SearchItemInput, EditItemInput } from '../graphql/item/item.inputs';
 import { User } from './User';
 
 @ObjectType()
@@ -79,5 +79,19 @@ export class Item extends BaseEntity {
     }
 
     return queryBuilder.getMany();
+  }
+  static async updateItemAndReturn(params: EditItemInput) {
+    const { id, ...rest } = params;
+    try {
+      await this.createQueryBuilder()
+        .update()
+        .set({ ...rest })
+        .where('id = :id', { id })
+        .execute();
+      const updatedItem = await this.findOne(id);
+      return updatedItem;
+    } catch (error) {
+      throw Error(error);
+    }
   }
 }

@@ -13,6 +13,20 @@ export class CreateItemInput {
 }
 
 @InputType()
+export class EditItemInput {
+  @Field()
+  id: string;
+  @Field({ nullable: true })
+  name: string;
+  @Field({ nullable: true })
+  price: number;
+  @Field({ nullable: true })
+  imageUrl: string;
+  @Field({ nullable: true })
+  category: string;
+}
+
+@InputType()
 export class SearchItemInput {
   @Field({ nullable: true })
   column: string;

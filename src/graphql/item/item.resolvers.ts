@@ -3,7 +3,7 @@ import { Item } from '../../entity/Item';
 import { User, UserRole } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import SuccessMessage from '../sharedTypeDefs';
-import { CreateItemInput, SearchItemInput } from './item.inputs';
+import { CreateItemInput, SearchItemInput, EditItemInput } from './item.inputs';
 
 @Resolver()
 export default class ItemResolver {
@@ -47,6 +47,20 @@ export default class ItemResolver {
       return {
         message: 'Successfully deleted item'
       };
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Authorized(['ADMIN', 'EMPLOYEE'])
+  @Mutation(() => Item)
+  async updateItem(@Arg('input') input: EditItemInput) {
+    const { id } = input;
+    try {
+      const item = await Item.findOne(id);
+      if (!item) throw Error('No such item');
+      const updateItem = await Item.updateItemAndReturn(input);
+      return updateItem;
     } catch (error) {
       throw Error(error);
     }
