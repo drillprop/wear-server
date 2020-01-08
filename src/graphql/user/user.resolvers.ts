@@ -3,7 +3,7 @@ import { User, SignInput, UserRole } from '../../entity/User';
 import { createUserToken, checkPassword } from '../../utils/helpers';
 import { Resolver, Mutation, Ctx, Arg, Query } from 'type-graphql';
 import { Context } from '../../types/context.types';
-import SuccessMessage from '../sharedSchema';
+import SuccessMessage from '../sharedTypeDefs';
 
 @Resolver()
 export default class UserResolver {
