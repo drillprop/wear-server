@@ -1,51 +1,72 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
+  Field,
+  ID,
+  InputType,
+  ObjectType,
+  registerEnumType
+} from 'type-graphql';
+import {
   BaseEntity,
+  Column,
   CreateDateColumn,
-  OneToMany,
-  JoinColumn,
-  JoinTable
+  Entity,
+  PrimaryGeneratedColumn
 } from 'typeorm';
-import { Item } from './Item';
 
-enum UserRole {
-  Admin = 'ADMIN',
-  Employee = 'EMPLOYEE',
-  Customer = 'CUSTOMER'
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  EMPLOYEE = 'EMPLOYEE',
+  CUSTOMER = 'CUSTOMER'
 }
 
+@InputType()
+export class SignInput {
+  @Field()
+  email: string;
+  @Field()
+  password: string;
+}
+
+registerEnumType(UserRole, {
+  name: 'UserRole'
+});
+
+@ObjectType()
 @Entity()
-@Unique(['email'])
 export class User extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
+  @Field()
   @Column()
   email!: string;
 
+  @Field()
   @Column({ select: false })
   password!: string;
 
+  @Field()
   @Column({ nullable: true })
   firstName: string;
 
+  @Field()
   @Column({ nullable: true })
   lastName: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.Customer })
+  @Field(type => UserRole)
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
 
+  @Field()
   @CreateDateColumn()
   createdAt!: Date;
 
-  @OneToMany(
-    () => Item,
-    item => item.user
-  )
-  items: Item[];
+  // @OneToMany(
+  //   () => Item,
+  //   item => item.user
+  // )
+  // items: Item[];
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')
