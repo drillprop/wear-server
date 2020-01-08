@@ -10,6 +10,7 @@ import { config } from './ormconfig';
 import { getIdFromToken } from './utils/helpers';
 import { buildSchema } from 'type-graphql';
 import UserResolver from './graphql/user/user.resolvers';
+import ItemResolver from './graphql/item/item.resolvers';
 
 const startServer = async () => {
   const app = express();
@@ -17,7 +18,8 @@ const startServer = async () => {
   const frontendUrl = process.env.FRONTEND_URL;
 
   const schema = await buildSchema({
-    resolvers: [UserResolver]
+    resolvers: [UserResolver, ItemResolver],
+    validate: false
   });
 
   app.use(

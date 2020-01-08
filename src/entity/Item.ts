@@ -7,32 +7,70 @@ import {
   ManyToOne
 } from 'typeorm';
 import { User } from './User';
+import { ObjectType, Field, ID, InputType, Int } from 'type-graphql';
 
 interface SearchItemsParams {
-  column?: string | null;
-  argument?: string | null;
-  take?: number | null;
-  skip?: number | null;
-  orderBy?: string | null;
-  desc?: boolean | null;
-  priceFrom?: number | null;
-  priceTo?: number | null;
+  column?: string;
+  argument?: string;
+  take?: number;
+  skip?: number;
+  orderBy?: string;
+  desc?: boolean;
+  priceFrom?: number;
+  priceTo?: number;
+}
+@InputType()
+export class CreateItemInput {
+  @Field()
+  name: string;
+  @Field()
+  price: number;
+  @Field()
+  imageUrl: string;
+  @Field()
+  category: string;
 }
 
+@InputType()
+export class SearchItemInput {
+  @Field({ nullable: true })
+  column: string;
+  @Field({ nullable: true })
+  argument: string;
+  @Field(() => Int, { nullable: true })
+  take: number;
+  @Field(() => Int, { nullable: true })
+  skip: number;
+  @Field({ nullable: true })
+  orderBy: string;
+  @Field({ nullable: true })
+  desc: boolean;
+  @Field({ nullable: true })
+  priceFrom: number;
+  @Field({ nullable: true })
+  priceTo: number;
+}
+
+@ObjectType()
 @Entity()
 export class Item extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
+  @Field()
   @Column()
   name!: string;
 
+  @Field()
   @Column()
   price!: number;
 
+  @Field()
   @Column()
   imageUrl!: string;
 
+  @Field()
   @Column()
   category: string;
 
@@ -42,9 +80,11 @@ export class Item extends BaseEntity {
   )
   user: User;
 
+  @Field()
   @CreateDateColumn()
   createdAt!: Date;
 
+  @Field({ nullable: true })
   @CreateDateColumn()
   updatedAt: Date;
 
