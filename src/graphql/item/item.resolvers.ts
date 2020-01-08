@@ -20,6 +20,22 @@ const itemResolvers: Resolvers = {
       } catch (error) {
         throw Error(error);
       }
+    },
+    async deleteItem(_, { id }, { userId }) {
+      const user = await User.findById(userId);
+
+      if (!user) {
+        throw Error('You must be logged in');
+      }
+      if (user.role === 'CUSTOMER') {
+        throw Error(`You don't have permission to delete an item`);
+      }
+
+      await Item.delete(id);
+
+      return {
+        message: 'Successfully deleted item'
+      };
     }
   },
   Query: {

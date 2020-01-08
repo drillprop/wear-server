@@ -21,6 +21,7 @@ export default gql`
 
   extend type Mutation {
     createItem(input: CreateItemInput!): Item!
+    deleteItem(id: ID!): SuccessMessage
   }
 
   extend type Query {

@@ -45,6 +45,7 @@ export type ItemWhereInput = {
 export type Mutation = {
    __typename?: 'Mutation',
   createItem: Item,
+  deleteItem?: Maybe<SuccessMessage>,
   register: User,
   login: User,
   signout?: Maybe<SuccessMessage>,
@@ -55,6 +56,11 @@ export type Mutation = {
 
 export type MutationCreateItemArgs = {
   input: CreateItemInput
+};
+
+
+export type MutationDeleteItemArgs = {
+  id: Scalars['ID']
 };
 
 
@@ -201,8 +207,8 @@ export type ResolversTypes = ResolversObject<{
   UserRole: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   CreateItemInput: ResolverTypeWrapper<any>,
-  SignInput: ResolverTypeWrapper<any>,
   SuccessMessage: ResolverTypeWrapper<any>,
+  SignInput: ResolverTypeWrapper<any>,
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -219,8 +225,8 @@ export type ResolversParentTypes = ResolversObject<{
   UserRole: any,
   Mutation: {},
   CreateItemInput: any,
-  SignInput: any,
   SuccessMessage: any,
+  SignInput: any,
 }>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -239,6 +245,7 @@ export type ItemResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createItem?: Resolver<ResolversTypes['Item'], ParentType, ContextType, RequireFields<MutationCreateItemArgs, 'input'>>,
+  deleteItem?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType, RequireFields<MutationDeleteItemArgs, 'id'>>,
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>,
   login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>,
   signout?: Resolver<Maybe<ResolversTypes['SuccessMessage']>, ParentType, ContextType>,
