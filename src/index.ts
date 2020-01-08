@@ -11,6 +11,7 @@ import { getIdFromToken } from './utils/helpers';
 import { buildSchema } from 'type-graphql';
 import UserResolver from './graphql/user/user.resolvers';
 import ItemResolver from './graphql/item/item.resolvers';
+import { customAuthChecker } from './graphql/utils';
 
 const startServer = async () => {
   const app = express();
@@ -19,7 +20,8 @@ const startServer = async () => {
 
   const schema = await buildSchema({
     resolvers: [UserResolver, ItemResolver],
-    validate: false
+    validate: false,
+    authChecker: customAuthChecker
   });
 
   app.use(
