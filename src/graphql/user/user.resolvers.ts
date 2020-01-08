@@ -5,9 +5,9 @@ import { createUserToken, checkPassword } from '../../utils/helpers';
 
 const userResolvers: Resolvers = {
   Query: {
-    async users(_, __, { id }) {
+    async users(_, __, { userId }) {
       try {
-        const user = await User.findById(id);
+        const user = await User.findById(userId);
         if (user?.role === 'ADMIN') {
           const allUsers = await User.find();
           return allUsers;
@@ -18,8 +18,8 @@ const userResolvers: Resolvers = {
         throw Error(error);
       }
     },
-    async me(_, __, { id }) {
-      const user = await User.findById(id);
+    async me(_, __, { userId }) {
+      const user = await User.findById(userId);
       if (user) {
         return user;
       }
@@ -71,9 +71,9 @@ const userResolvers: Resolvers = {
       res.clearCookie('token');
       return { message: 'Successfully sign out' };
     },
-    async changeUserRole(_, { email, role }, { id }) {
+    async changeUserRole(_, { email, role }, { userId }) {
       try {
-        const userAdmin = await User.findById(id);
+        const userAdmin = await User.findById(userId);
         if (userAdmin?.role === 'ADMIN') {
           const user = await User.findByEmail(email);
           if (user) {
@@ -92,8 +92,8 @@ const userResolvers: Resolvers = {
         throw Error(error);
       }
     },
-    async deleteAccount(_, { password }, { id, res }) {
-      const user = await User.findById(id);
+    async deleteAccount(_, { password }, { userId, res }) {
+      const user = await User.findById(userId);
       if (!user) {
         throw Error('You must be logged in');
       }
@@ -103,7 +103,7 @@ const userResolvers: Resolvers = {
         throw Error('Wrong Password');
       }
 
-      await User.delete(id);
+      await User.delete(userId);
       res.clearCookie('token');
 
       return {

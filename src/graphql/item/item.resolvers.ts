@@ -4,9 +4,9 @@ import { User } from '../../entity/User';
 
 const itemResolvers: Resolvers = {
   Mutation: {
-    async createItem(_, { input }, { id }) {
+    async createItem(_, { input }, { userId }) {
       try {
-        const user = await User.findById(id);
+        const user = await User.findById(userId);
         if (!user) {
           throw Error('You have to login to add an item');
         }

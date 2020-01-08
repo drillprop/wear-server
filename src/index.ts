@@ -27,8 +27,8 @@ const startServer = async () => {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }) => {
-      const id = getIdFromToken(req);
-      return { req, res, id };
+      const userId = getIdFromToken(req);
+      return { req, res, userId };
     }
   });
 
