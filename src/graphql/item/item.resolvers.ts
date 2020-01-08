@@ -7,6 +7,20 @@ import { CreateItemInput, SearchItemInput } from './item.inputs';
 
 @Resolver()
 export default class ItemResolver {
+  @Query(() => [Item], { nullable: 'items' })
+  async items(@Arg('input', { nullable: true }) input: SearchItemInput) {
+    try {
+      if (input) {
+        const search = await Item.searchItems(input);
+        return search;
+      }
+      const items = await Item.find();
+      return items;
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
   @Mutation(() => Item)
   async createItem(
     @Arg('input') input: CreateItemInput,
@@ -20,14 +34,14 @@ export default class ItemResolver {
       if (user.role === 'CUSTOMER') {
         throw Error(`You don't have permission to create an item`);
       }
-      const { name, imageUrl, price, category } = input;
-      const item = Item.create({ ...input });
+      const item = Item.create({ ...input, user });
       await item.save();
       return item;
     } catch (error) {
       throw Error(error);
     }
   }
+
   @Mutation(() => SuccessMessage)
   async deleteItem(@Arg('id') id: string, @Ctx() { userId }: Context) {
     const user = await User.findById(userId);
@@ -42,24 +56,4 @@ export default class ItemResolver {
       message: 'Successfully deleted item'
     };
   }
-  @Query(() => [Item], { nullable: 'items' })
-  async items(@Arg('input', { nullable: true }) input: SearchItemInput) {
-    try {
-      if (input) {
-        const search = await Item.searchItems(input);
-        return search;
-      }
-      const items = await Item.find();
-      return items;
-    } catch (error) {
-      throw Error(error);
-    }
-  }
 }
-
-const itemResolvers = {
-  Mutation: {
-    // ,
-    // Query: {
-  }
-};
