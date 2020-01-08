@@ -1,8 +1,9 @@
 import { Arg, Ctx, Mutation, Resolver, Query } from 'type-graphql';
-import { CreateItemInput, Item, SearchItemInput } from '../../entity/Item';
+import { Item } from '../../entity/Item';
 import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import SuccessMessage from '../sharedTypeDefs';
+import { CreateItemInput, SearchItemInput } from './item.inputs';
 
 @Resolver()
 export default class ItemResolver {

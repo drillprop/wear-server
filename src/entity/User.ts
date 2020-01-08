@@ -21,14 +21,6 @@ export enum UserRole {
   CUSTOMER = 'CUSTOMER'
 }
 
-@InputType()
-export class SignInput {
-  @Field()
-  email: string;
-  @Field()
-  password: string;
-}
-
 registerEnumType(UserRole, {
   name: 'UserRole'
 });

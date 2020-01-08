@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
-import { User, SignInput, UserRole } from '../../entity/User';
+import { User, UserRole } from '../../entity/User';
 import { createUserToken, checkPassword } from '../../utils/helpers';
 import { Resolver, Mutation, Ctx, Arg, Query } from 'type-graphql';
 import { Context } from '../../types/context.types';
 import SuccessMessage from '../sharedTypeDefs';
+import { SignInput } from './user.inputs';
 
 @Resolver()
 export default class UserResolver {
