@@ -6,6 +6,7 @@ import { UserRole } from '../../entity/User';
 export class SignInput {
   @Field()
   email: string;
+
   @Field()
   password: string;
 }
@@ -14,4 +15,19 @@ export class SignInput {
 export class SearchUserInput extends SearchInput {
   @Field(() => UserRole, { nullable: true })
   role: UserRole;
+}
+
+@InputType()
+export class ContactDetailsInput {
+  @Field({ nullable: true })
+  firstName: string;
+
+  @Field({ nullable: true })
+  lastName: string;
+
+  @Field({ nullable: true })
+  address: string;
+
+  @Field({ nullable: true })
+  phoneNumber: number;
 }

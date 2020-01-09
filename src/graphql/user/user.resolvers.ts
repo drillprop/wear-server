@@ -4,13 +4,13 @@ import { User, UserRole } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import { checkPassword, createUserToken } from '../../utils/helpers';
 import { SuccessMessage } from '../sharedTypeDefs';
-import { SearchUserInput, SignInput } from './user.inputs';
+import { SearchUserInput, SignInput, ContactDetailsInput } from './user.inputs';
 
 @Resolver()
 export default class UserResolver {
   @Authorized('ADMIN')
   @Query(() => [User], { nullable: 'items' })
-  async users(@Arg('input') input: SearchUserInput) {
+  async users(@Arg('input', { nullable: true }) input: SearchUserInput) {
     try {
       if (!input) {
         const allUsers = await User.find();
@@ -62,11 +62,11 @@ export default class UserResolver {
   ) {
     try {
       const user = await User.findByEmail(email);
-      if (!user) {
-        throw Error('No user with this email');
-      }
+      if (!user) throw Error('No user with this email');
+
       const match = await checkPassword(password, user.password);
       if (!match) throw Error('Wrong Password');
+
       const token = createUserToken(user);
       res.cookie('token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -84,6 +84,22 @@ export default class UserResolver {
     return { message: 'Successfully sign out' };
   }
 
+  @Authorized(['ADMIN', 'EMPLOYEE', 'CUSTOMER'])
+  @Mutation(() => User)
+  async updateContactDetails(
+    @Arg('input') input: ContactDetailsInput,
+    @Ctx() { userId }: Context
+  ) {
+    const userRepository = User.getRepository();
+    try {
+      const user = await User.findOne({ id: userId });
+      const updatedUser = await userRepository.save({ ...user, ...input });
+      return updatedUser;
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
   @Authorized('ADMIN')
   @Mutation(() => SuccessMessage)
   async changeUserRole(
@@ -92,12 +108,11 @@ export default class UserResolver {
   ) {
     try {
       const user = await User.findByEmail(email);
-      if (user) {
-        user.role = role;
-        await user.save();
-      } else {
-        throw Error('No user with this email');
-      }
+      if (!user) throw Error('No user with this email');
+
+      user.role = role;
+      await user.save();
+
       return {
         message: `Succesfully set ${role} permission to ${email}`
       };
@@ -112,13 +127,11 @@ export default class UserResolver {
     @Ctx() { userId, res }: Context
   ) {
     const user = await User.findOne({ id: userId });
-    if (!user) {
-      throw Error('You must be logged in');
-    }
+    if (!user) throw Error('You must be logged in');
+
     const match = await checkPassword(password, user.password);
-    if (!match) {
-      throw Error('Wrong Password');
-    }
+    if (!match) throw Error('Wrong Password');
+
     await User.delete(userId);
     res.clearCookie('token');
     return {

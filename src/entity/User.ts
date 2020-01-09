@@ -36,13 +36,21 @@ export class User extends BaseEntity {
   @Column({ select: false })
   password: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   lastName: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  address: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  phoneNumber: number;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   @Field(type => UserRole)
