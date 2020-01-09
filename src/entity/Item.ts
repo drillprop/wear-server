@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { SearchItemInput, EditItemInput } from '../graphql/item/item.inputs';
+import { SearchItemInput } from '../graphql/item/item.inputs';
 import { User } from './User';
 
 @ObjectType()
@@ -15,19 +15,19 @@ import { User } from './User';
 export class Item extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id: string;
 
   @Field()
   @Column()
-  name!: string;
+  name: string;
 
   @Field()
   @Column()
-  price!: number;
+  price: number;
 
   @Field()
   @Column()
-  imageUrl!: string;
+  imageUrl: string;
 
   @Field()
   @Column()
@@ -41,7 +41,7 @@ export class Item extends BaseEntity {
 
   @Field()
   @CreateDateColumn()
-  createdAt!: Date;
+  createdAt: Date;
 
   @Field({ nullable: true })
   @CreateDateColumn()

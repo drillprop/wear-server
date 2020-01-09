@@ -30,15 +30,15 @@ registerEnumType(UserRole, {
 export class User extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id: string;
 
   @Field()
   @Column()
-  email!: string;
+  email: string;
 
   @Field()
   @Column({ select: false })
-  password!: string;
+  password: string;
 
   @Field()
   @Column({ nullable: true })
@@ -54,7 +54,7 @@ export class User extends BaseEntity {
 
   @Field()
   @CreateDateColumn()
-  createdAt!: Date;
+  createdAt: Date;
 
   @OneToMany(
     () => Item,
