@@ -2,7 +2,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Item } from '../../entity/Item';
 import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
-import SuccessMessage from '../sharedTypeDefs';
+import { SuccessMessage } from '../sharedTypeDefs';
 import { CreateItemInput, EditItemInput, SearchItemInput } from './item.inputs';
 
 @Resolver()

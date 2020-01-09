@@ -1,4 +1,5 @@
 import { InputType, Field, Int } from 'type-graphql';
+import { SearchInput } from '../sharedTypeDefs';
 
 @InputType()
 export class CreateItemInput {
@@ -27,19 +28,7 @@ export class EditItemInput {
 }
 
 @InputType()
-export class SearchItemInput {
-  @Field({ nullable: true })
-  column: string;
-  @Field({ nullable: true })
-  argument: string;
-  @Field(() => Int, { nullable: true })
-  take: number;
-  @Field(() => Int, { nullable: true })
-  skip: number;
-  @Field({ nullable: true })
-  orderBy: string;
-  @Field({ nullable: true })
-  desc: boolean;
+export class SearchItemInput extends SearchInput {
   @Field({ nullable: true })
   priceFrom: number;
   @Field({ nullable: true })
