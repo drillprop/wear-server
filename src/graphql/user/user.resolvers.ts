@@ -1,13 +1,14 @@
 import bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { MoreThan } from 'typeorm';
+import { promisify } from 'util';
 import { User, UserRole } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import { checkPassword, createUserToken } from '../../utils/helpers';
+import { emailTemplate, transport } from '../../utils/mail';
 import { SuccessMessage } from '../sharedTypeDefs';
 import { ContactDetailsInput, SearchUserInput, SignInput } from './user.inputs';
-import { randomBytes } from 'crypto';
-import { promisify } from 'util';
-import { MoreThan, LessThan } from 'typeorm';
 
 @Resolver()
 export default class UserResolver {
@@ -127,7 +128,7 @@ export default class UserResolver {
   async changePassword(
     @Arg('password') password: string,
     @Arg('newPassword') newPassword: string,
-    @Ctx() { userId, res }: Context
+    @Ctx() { userId }: Context
   ) {
     try {
       const user = await User.findAndSelectPassword('id', userId);
@@ -179,10 +180,16 @@ export default class UserResolver {
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
     const link = `${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}`;
-    console.log(link);
+
+    await transport.sendMail({
+      from: 'wear@wear.com',
+      to: user.email,
+      subject: 'Your Password Reset Token',
+      html: emailTemplate(link)
+    });
 
     return {
-      message: 'Successfully send reset password link'
+      message: `Successfully send reset password link to ${user.email}`
     };
   }
 
