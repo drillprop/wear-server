@@ -61,7 +61,7 @@ export default class UserResolver {
     @Ctx() { res }: Context
   ) {
     try {
-      const user = await User.findByEmail(email);
+      const user = await User.findAndSelectPassword('email', email);
       if (!user) throw Error('No user with this email');
 
       const match = await checkPassword(password, user.password);
@@ -107,7 +107,7 @@ export default class UserResolver {
     @Arg('role', () => UserRole) role: UserRole
   ) {
     try {
-      const user = await User.findByEmail(email);
+      const user = await User.findAndSelectPassword('email', email);
       if (!user) throw Error('No user with this email');
 
       user.role = role;
@@ -115,6 +115,32 @@ export default class UserResolver {
 
       return {
         message: `Succesfully set ${role} permission to ${email}`
+      };
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  @Mutation(() => SuccessMessage)
+  async changePassword(
+    @Arg('password') password: string,
+    @Arg('newPassword') newPassword: string,
+    @Ctx() { userId, res }: Context
+  ) {
+    try {
+      const user = await User.findAndSelectPassword('id', userId);
+      if (!user) throw Error('You must be logged in');
+
+      console.log(password, user.password);
+      const match = await checkPassword(password, user.password);
+      if (!match) throw Error('Wrong Password');
+
+      const hashPassword = await bcrypt.hash(newPassword, 12);
+      user.password = hashPassword;
+      await user.save();
+
+      return {
+        message: 'Successfully changed password'
       };
     } catch (error) {
       throw Error(error);
