@@ -16,8 +16,6 @@ import { customAuthChecker } from './graphql/utils';
 const startServer = async () => {
   const app = express();
 
-  const frontendUrl = process.env.FRONTEND_URL;
-
   const schema = await buildSchema({
     resolvers: [UserResolver, ItemResolver],
     validate: false,
@@ -27,7 +25,7 @@ const startServer = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: frontendUrl
+      origin: process.env.FRONTEND_URL
     })
   );
 
