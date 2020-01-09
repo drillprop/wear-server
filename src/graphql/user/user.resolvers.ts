@@ -1,19 +1,23 @@
 import bcrypt from 'bcrypt';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { User, UserRole } from '../../entity/User';
-import { createUserToken, checkPassword } from '../../utils/helpers';
-import { Resolver, Mutation, Ctx, Arg, Query, Authorized } from 'type-graphql';
 import { Context } from '../../types/context.types';
-import SuccessMessage from '../sharedTypeDefs';
-import { SignInput } from './user.inputs';
+import { checkPassword, createUserToken } from '../../utils/helpers';
+import { SuccessMessage } from '../sharedTypeDefs';
+import { SearchUserInput, SignInput } from './user.inputs';
 
 @Resolver()
 export default class UserResolver {
   @Authorized('ADMIN')
   @Query(() => [User], { nullable: 'items' })
-  async users() {
+  async users(@Arg('input') input: SearchUserInput) {
     try {
-      const allUsers = await User.find();
-      return allUsers;
+      if (!input) {
+        const allUsers = await User.find();
+        return allUsers;
+      }
+      const users = await User.searchUsers(input);
+      return users;
     } catch (error) {
       throw Error(error);
     }
@@ -84,7 +88,7 @@ export default class UserResolver {
   @Mutation(() => SuccessMessage)
   async changeUserRole(
     @Arg('email') email: string,
-    @Arg('role') role: UserRole
+    @Arg('role', () => UserRole) role: UserRole
   ) {
     try {
       const user = await User.findByEmail(email);

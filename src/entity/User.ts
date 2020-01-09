@@ -1,19 +1,14 @@
-import {
-  Field,
-  ID,
-  InputType,
-  ObjectType,
-  registerEnumType
-} from 'type-graphql';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import { SearchUserInput } from '../graphql/user/user.inputs';
 import { Item } from './Item';
 
 export enum UserRole {
@@ -49,8 +44,8 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Field(type => UserRole)
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
+  @Field(type => UserRole)
   role: UserRole;
 
   @Field()
@@ -66,6 +61,26 @@ export class User extends BaseEntity {
     item => item.user
   )
   items: Item[];
+
+  static searchUsers(params: SearchUserInput) {
+    const queryBuilder = this.createQueryBuilder('item');
+    const { column, argument, skip, take, orderBy, desc, role } = params;
+
+    if (column && argument) {
+      queryBuilder.andWhere(`${column} ilike '%' || :argument || '%'`, {
+        argument
+      });
+    }
+    if (skip) queryBuilder.skip(skip);
+    if (take) queryBuilder.take(take);
+    if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
+    if (role)
+      queryBuilder.andWhere(`ROLE = :role`, {
+        role
+      });
+
+    return queryBuilder.getMany();
+  }
 
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')
