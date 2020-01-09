@@ -4,7 +4,10 @@ import { User, UserRole } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import { checkPassword, createUserToken } from '../../utils/helpers';
 import { SuccessMessage } from '../sharedTypeDefs';
-import { SearchUserInput, SignInput, ContactDetailsInput } from './user.inputs';
+import { ContactDetailsInput, SearchUserInput, SignInput } from './user.inputs';
+import { randomBytes } from 'crypto';
+import { promisify } from 'util';
+import { MoreThan, LessThan } from 'typeorm';
 
 @Resolver()
 export default class UserResolver {
@@ -54,7 +57,6 @@ export default class UserResolver {
       throw Error(error);
     }
   }
-
   @Mutation(() => User)
   async login(
     @Arg('input') { email, password }: SignInput,
@@ -163,5 +165,53 @@ export default class UserResolver {
     return {
       message: 'Successfully deleted account'
     };
+  }
+
+  @Mutation(() => SuccessMessage)
+  async requestResetPassword(@Arg('email') email: string) {
+    const user = await User.findOne({ email });
+    if (!user) throw Error('No user with this email');
+
+    const resetToken = (await promisify(randomBytes)(20)).toString('hex');
+    const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 60);
+
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = resetTokenExpiry;
+    await user.save();
+    const link = `${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}`;
+    console.log(link);
+
+    return {
+      message: 'Successfully send reset password link'
+    };
+  }
+
+  @Mutation(() => User)
+  async resetPassword(
+    @Arg('password') password: string,
+    @Arg('resetToken') resetToken: string,
+    @Ctx() { res }: Context
+  ) {
+    const now = new Date(Date.now());
+    const user = await User.findOne({
+      where: {
+        resetToken,
+        resetTokenExpiry: MoreThan(now)
+      }
+    });
+    if (!user) throw new Error('This token is either invalid or expired');
+
+    const newPassword = await bcrypt.hash(password, 12);
+
+    user.password = newPassword;
+    user.resetToken = '';
+    user.resetTokenExpiry = new Date(0);
+    await user.save();
+    const token = createUserToken(user);
+    res.cookie('token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true
+    });
+    return user;
   }
 }

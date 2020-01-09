@@ -64,6 +64,14 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  resetToken?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  resetTokenExpiry?: Date;
+
   @OneToMany(
     () => Item,
     item => item.user
