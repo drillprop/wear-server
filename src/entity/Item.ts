@@ -5,7 +5,8 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/item.inputs';
 import { User } from './User';
@@ -44,7 +45,7 @@ export class Item extends BaseEntity {
   createdAt: Date;
 
   @Field({ nullable: true })
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 
   static searchItems(params: SearchItemInput) {

@@ -21,7 +21,7 @@ export default class UserResolver {
 
   @Query(() => User, { nullable: true })
   async me(@Ctx() { userId }: Context) {
-    const user = await User.findById(userId);
+    const user = await User.findOne({ id: userId });
     if (user) {
       return user;
     }
@@ -107,7 +107,7 @@ export default class UserResolver {
     @Arg('password') password: string,
     @Ctx() { userId, res }: Context
   ) {
-    const user = await User.findById(userId);
+    const user = await User.findOne({ id: userId });
     if (!user) {
       throw Error('You must be logged in');
     }

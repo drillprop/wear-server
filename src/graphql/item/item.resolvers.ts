@@ -28,7 +28,7 @@ export default class ItemResolver {
     @Ctx() { userId }: Context
   ) {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findOne({ id: userId });
       const item = Item.create({ ...input, user });
       await item.save();
       return item;

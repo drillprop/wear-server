@@ -6,7 +6,7 @@ export const customAuthChecker: AuthChecker<Context, UserRole> = async (
   { context: { userId } },
   roles
 ) => {
-  const user = await User.findById(userId);
+  const user = await User.findOne({ id: userId });
   if (!user) return false;
   if (roles.includes(user.role)) {
     return true;

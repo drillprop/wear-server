@@ -11,7 +11,8 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  OneToMany
+  OneToMany,
+  UpdateDateColumn
 } from 'typeorm';
 import { Item } from './Item';
 
@@ -56,6 +57,10 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
+  @Field({ nullable: true })
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @OneToMany(
     () => Item,
     item => item.user
@@ -65,13 +70,6 @@ export class User extends BaseEntity {
   static findByEmail(email: string) {
     return this.createQueryBuilder('user')
       .where('user.email = :email', { email })
-      .addSelect('user.password')
-      .getOne();
-  }
-
-  static findById(id: string) {
-    return this.createQueryBuilder('user')
-      .where('user.id = :id', { id })
       .addSelect('user.password')
       .getOne();
   }
