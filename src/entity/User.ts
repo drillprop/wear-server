@@ -90,9 +90,9 @@ export class User extends BaseEntity {
     return queryBuilder.getMany();
   }
 
-  static findByEmail(email: string) {
+  static findAndSelectPassword(col: string, arg: string) {
     return this.createQueryBuilder('user')
-      .where('user.email = :email', { email })
+      .where(`${col} = '${arg}'`)
       .addSelect('user.password')
       .getOne();
   }
