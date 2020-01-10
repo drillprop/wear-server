@@ -9,15 +9,14 @@ import { createConnection } from 'typeorm';
 import { config } from './ormconfig';
 import { getIdFromToken } from './utils/helpers';
 import { buildSchema } from 'type-graphql';
-import UserResolver from './graphql/user/user.resolvers';
 import ItemResolver from './graphql/item/item.resolvers';
-import { customAuthChecker } from './graphql/utils';
+import { customAuthChecker } from './graphql/user/user.utils';
 
 const startServer = async () => {
   const app = express();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, ItemResolver],
+    resolvers: [__dirname + '/graphql/**/*.ts'],
     validate: false,
     authChecker: customAuthChecker
   });
