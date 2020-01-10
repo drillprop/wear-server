@@ -1,5 +1,6 @@
 import { InputType, Field } from 'type-graphql';
 import { Length, Min, IsUrl } from 'class-validator';
+import { IsNameNotTaken } from '../createItem/IsNameNotTaken';
 
 @InputType()
 export class EditItemInput {
@@ -7,6 +8,7 @@ export class EditItemInput {
   id: string;
   @Field({ nullable: true })
   @Length(1, 255)
+  @IsNameNotTaken()
   name: string;
   @Field({ nullable: true })
   @Min(1)
