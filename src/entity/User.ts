@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { Field, ID, ObjectType, registerEnumType, Int } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -48,7 +48,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   address: string;
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   @Column({ nullable: true })
   phoneNumber: number;
 
