@@ -1,6 +1,6 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 import { Item } from '../../../entity/Item';
-import { EditItemInput } from '../item.inputs';
+import { EditItemInput } from './updateItem/UpdateItemInput';
 
 @Resolver()
 export default class UpdateItemResolver {
