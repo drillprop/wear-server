@@ -3,13 +3,13 @@ import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { User } from '../../../entity/User';
 import { Context } from '../../../types/context.types';
 import { createUserToken } from '../../../utils/helpers';
-import { SignInput } from '../user.inputs';
+import RegisterInput from './register/RegisterInput';
 
 @Resolver()
 export default class RegisterResolver {
   @Mutation(() => User)
   async register(
-    @Arg('input') { email, password }: SignInput,
+    @Arg('input') { email, password }: RegisterInput,
     @Ctx() { res }: Context
   ) {
     try {

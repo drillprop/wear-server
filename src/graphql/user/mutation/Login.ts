@@ -2,13 +2,13 @@ import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { User } from '../../../entity/User';
 import { Context } from '../../../types/context.types';
 import { checkPassword, createUserToken } from '../../../utils/helpers';
-import { SignInput } from '../user.inputs';
+import LoginInput from './login/LoginInput';
 
 @Resolver()
 export default class LoginResolver {
   @Mutation(() => User)
   async login(
-    @Arg('input') { email, password }: SignInput,
+    @Arg('input') { email, password }: LoginInput,
     @Ctx() { res }: Context
   ) {
     try {

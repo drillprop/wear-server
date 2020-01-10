@@ -1,5 +1,5 @@
-import { InputType, Field, Int } from 'type-graphql';
-import { SearchInput } from '../sharedTypeDefs';
+import { Field, InputType } from 'type-graphql';
+import { SearchInput } from '../shared/sharedTypeDefs';
 
 @InputType()
 export class CreateItemInput {

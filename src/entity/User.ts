@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { SearchUserInput } from '../graphql/user/user.inputs';
 import { Item } from './Item';
+import { SearchUserInput } from '../graphql/user/query/users/SearchInput';
 
 export enum UserRole {
   ADMIN = 'ADMIN',

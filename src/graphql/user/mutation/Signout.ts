@@ -1,6 +1,6 @@
 import { Ctx, Mutation, Resolver } from 'type-graphql';
 import { Context } from '../../../types/context.types';
-import { SuccessMessage } from '../../sharedTypeDefs';
+import { SuccessMessage } from '../../shared/sharedTypeDefs';
 
 @Resolver()
 export default class SignoutResolver {

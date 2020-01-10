@@ -9,14 +9,13 @@ import { createConnection } from 'typeorm';
 import { config } from './ormconfig';
 import { getIdFromToken } from './utils/helpers';
 import { buildSchema } from 'type-graphql';
-import { customAuthChecker } from './graphql/user/user.utils';
+import { customAuthChecker } from './graphql/user/utils/customAuthChecker';
 
 const startServer = async () => {
   const app = express();
 
   const schema = await buildSchema({
     resolvers: [__dirname + '/graphql/**/*.ts'],
-    validate: false,
     authChecker: customAuthChecker
   });
 

@@ -1,6 +1,6 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 import { User, UserRole } from '../../../entity/User';
-import { SuccessMessage } from '../../sharedTypeDefs';
+import { SuccessMessage } from '../../shared/sharedTypeDefs';
 
 @Resolver()
 export default class ChangeUserRoleResolver {

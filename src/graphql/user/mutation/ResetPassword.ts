@@ -7,7 +7,7 @@ import { User } from '../../../entity/User';
 import { Context } from '../../../types/context.types';
 import { createUserToken } from '../../../utils/helpers';
 import { emailTemplate, transport } from '../../../utils/mail';
-import { SuccessMessage } from '../../sharedTypeDefs';
+import { SuccessMessage } from '../../shared/sharedTypeDefs';
 
 @Resolver()
 export default class ResetPasswordResolver {

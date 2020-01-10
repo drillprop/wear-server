@@ -1,6 +1,6 @@
 import { Authorized, Arg, Resolver, Query } from 'type-graphql';
 import { User } from '../../../entity/User';
-import { SearchUserInput } from '../user.inputs';
+import { SearchUserInput } from './users/SearchInput';
 
 @Resolver()
 export class UsersResolver {

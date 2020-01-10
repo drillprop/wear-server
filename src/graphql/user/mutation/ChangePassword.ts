@@ -1,16 +1,16 @@
 import bcrypt from 'bcrypt';
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Args, Ctx, Mutation, Resolver } from 'type-graphql';
 import { User } from '../../../entity/User';
 import { Context } from '../../../types/context.types';
 import { checkPassword } from '../../../utils/helpers';
-import { SuccessMessage } from '../../sharedTypeDefs';
+import { SuccessMessage } from '../../shared/sharedTypeDefs';
+import ChangePasswordArgs from './changePassword/ChangePasswordArgs';
 
 @Resolver()
 export default class ChangePasswordResolver {
   @Mutation(() => SuccessMessage)
   async changePassword(
-    @Arg('password') password: string,
-    @Arg('newPassword') newPassword: string,
+    @Args() { password, newPassword }: ChangePasswordArgs,
     @Ctx() { userId }: Context
   ) {
     try {
