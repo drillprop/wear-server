@@ -3,11 +3,11 @@ import { randomBytes } from 'crypto';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { MoreThan } from 'typeorm';
 import { promisify } from 'util';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
-import { createUserToken } from '../../../utils/helpers';
-import { emailTemplate, transport } from '../../../utils/mail';
-import { SuccessMessage } from '../../shared/sharedTypeDefs';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
+import { createUserToken } from '../../utils/getAndCreatetoken';
+import { emailTemplate, transport } from '../../utils/mail';
+import { SuccessMessage } from '../shared/SuccessMessage';
 
 @Resolver()
 export default class ResetPasswordResolver {

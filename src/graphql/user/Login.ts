@@ -1,8 +1,9 @@
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
-import { checkPassword, createUserToken } from '../../../utils/helpers';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
+import { createUserToken } from '../../utils/getAndCreatetoken';
 import LoginInput from './login/LoginInput';
+import checkPassword from '../../utils/checkPassword';
 
 @Resolver()
 export default class LoginResolver {

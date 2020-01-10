@@ -1,6 +1,6 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
 import ContactDetailsInput from './updateContactDetails/ContactDetailsInput';
 
 @Resolver()

@@ -1,7 +1,7 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
-import { Item } from '../../../entity/Item';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
+import { Item } from '../../entity/Item';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
 import { CreateItemInput } from './createItem/CreateItemInput';
 
 @Resolver()

@@ -1,5 +1,5 @@
 import { Arg, Query, Resolver } from 'type-graphql';
-import { Item } from '../../../entity/Item';
+import { Item } from '../../entity/Item';
 import { SearchItemInput } from './items/SearchItemsInput';
 
 @Resolver()

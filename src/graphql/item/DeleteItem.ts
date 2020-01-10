@@ -1,6 +1,6 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
-import { Item } from '../../../entity/Item';
-import { SuccessMessage } from '../../shared/sharedTypeDefs';
+import { Item } from '../../entity/Item';
+import { SuccessMessage } from '../shared/SuccessMessage';
 
 @Resolver()
 export default class DeleteItemResolver {

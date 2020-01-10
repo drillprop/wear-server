@@ -1,5 +1,5 @@
 import { Authorized, Arg, Resolver, Query } from 'type-graphql';
-import { User } from '../../../entity/User';
+import { User } from '../../entity/User';
 import { SearchUserInput } from './users/SearchInput';
 
 @Resolver()

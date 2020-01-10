@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { SearchItemInput } from '../graphql/item/item.inputs';
 import { User } from './User';
+import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 
 @ObjectType()
 @Entity()

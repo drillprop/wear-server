@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { Args, Ctx, Mutation, Resolver } from 'type-graphql';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
-import { checkPassword } from '../../../utils/helpers';
-import { SuccessMessage } from '../../shared/sharedTypeDefs';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
+import { SuccessMessage } from '../shared/SuccessMessage';
 import ChangePasswordArgs from './changePassword/ChangePasswordArgs';
+import checkPassword from '../../utils/checkPassword';
 
 @Resolver()
 export default class ChangePasswordResolver {

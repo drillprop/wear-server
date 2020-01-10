@@ -1,6 +1,6 @@
 import { Field, InputType } from 'type-graphql';
-import { SearchInput } from '../../../shared/sharedTypeDefs';
-import { UserRole } from '../../../../entity/User';
+import { UserRole } from '../../../entity/User';
+import SearchInput from '../../shared/SearchInput';
 
 @InputType()
 export class SearchUserInput extends SearchInput {

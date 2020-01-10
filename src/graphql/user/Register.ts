@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
-import { User } from '../../../entity/User';
-import { Context } from '../../../types/context.types';
-import { createUserToken } from '../../../utils/helpers';
+import { User } from '../../entity/User';
+import { Context } from '../../types/context.types';
+import { createUserToken } from '../../utils/getAndCreatetoken';
 import RegisterInput from './register/RegisterInput';
 
 @Resolver()

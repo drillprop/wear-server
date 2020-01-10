@@ -9,7 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import { Item } from './Item';
-import { SearchUserInput } from '../graphql/user/query/users/SearchInput';
+import { SearchUserInput } from '../graphql/user/users/SearchInput';
 
 export enum UserRole {
   ADMIN = 'ADMIN',

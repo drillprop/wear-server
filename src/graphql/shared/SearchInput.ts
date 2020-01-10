@@ -1,13 +1,7 @@
-import { ObjectType, Field, InputType, Int } from 'type-graphql';
-
-@ObjectType()
-export class SuccessMessage {
-  @Field()
-  message: string;
-}
+import { InputType, Field, Int } from 'type-graphql';
 
 @InputType()
-export class SearchInput {
+export default class SearchInput {
   @Field({ nullable: true })
   column: string;
   @Field({ nullable: true })

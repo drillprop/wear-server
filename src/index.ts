@@ -1,15 +1,15 @@
-import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { config } from './ormconfig';
-import { getIdFromToken } from './utils/helpers';
-import { buildSchema } from 'type-graphql';
-import { customAuthChecker } from './graphql/user/utils/customAuthChecker';
+import { customAuthChecker } from './utils/customAuthChecker';
+import { getIdFromToken } from './utils/getAndCreatetoken';
 
 const startServer = async () => {
   const app = express();
