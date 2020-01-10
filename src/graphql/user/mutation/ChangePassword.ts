@@ -17,7 +17,6 @@ export default class ChangePasswordResolver {
       const user = await User.findAndSelectPassword('id', userId);
       if (!user) throw Error('You must be logged in');
 
-      console.log(password, user.password);
       const match = await checkPassword(password, user.password);
       if (!match) throw Error('Wrong Password');
 
