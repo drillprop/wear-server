@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Item } from './Item';
 import { SearchUserInput } from '../graphql/user/users/SearchUserInput';
+import { Order } from './Order';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -77,6 +78,12 @@ export class User extends BaseEntity {
     item => item.user
   )
   items: Item[];
+
+  @OneToMany(
+    () => Order,
+    order => order.user
+  )
+  orders: Order[];
 
   static searchUsers(params: SearchUserInput) {
     const queryBuilder = this.createQueryBuilder('item');
