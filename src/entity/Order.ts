@@ -6,14 +6,15 @@ import {
   UpdateDateColumn,
   ManyToOne,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  BaseEntity
 } from 'typeorm';
 import { User } from './User';
 import { Item } from './Item';
 
 @ObjectType()
 @Entity()
-export class Order {
+export class Order extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -36,6 +37,6 @@ export class Order {
     () => Item,
     item => item.orders
   )
-  @JoinTable({ name: 'order_items' })
+  @JoinTable()
   items: Item[];
 }
