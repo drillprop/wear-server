@@ -6,10 +6,12 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  ManyToMany
 } from 'typeorm';
 import { User } from './User';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
+import { Order } from './Order';
 
 @ObjectType()
 @Entity()
@@ -39,6 +41,12 @@ export class Item extends BaseEntity {
     user => user.createdItems
   )
   user: User;
+
+  @ManyToMany(
+    () => Order,
+    order => order.items
+  )
+  orders: Order[];
 
   @Field()
   @CreateDateColumn()

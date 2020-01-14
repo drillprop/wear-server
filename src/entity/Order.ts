@@ -4,9 +4,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToOne
+  ManyToOne,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 import { User } from './User';
+import { Item } from './Item';
 
 @ObjectType()
 @Entity()
@@ -28,4 +31,11 @@ export class Order {
     user => user.orders
   )
   user: User;
+
+  @ManyToMany(
+    () => Item,
+    item => item.orders
+  )
+  @JoinTable({ name: 'order_items' })
+  items: Item[];
 }
