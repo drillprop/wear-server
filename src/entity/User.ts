@@ -75,7 +75,7 @@ export class User extends BaseEntity {
 
   @OneToMany(
     () => Item,
-    item => item.user,
+    item => item.createdBy,
     { nullable: true }
   )
   @Field(type => [Item], { nullable: 'items' })

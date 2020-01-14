@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType, Authorized } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -40,7 +40,9 @@ export class Item extends BaseEntity {
     () => User,
     user => user.createdItems
   )
-  user: User;
+  @Authorized(['ADMIN', 'EMPLOYEE'])
+  @Field(() => User)
+  createdBy: Promise<User>;
 
   @ManyToMany(
     () => Order,

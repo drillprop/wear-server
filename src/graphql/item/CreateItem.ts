@@ -14,8 +14,11 @@ export default class CrateItemResolver {
   ) {
     try {
       const user = await User.findOne({ id: userId });
-      const item = Item.create({ ...input, user });
+      if (!user) throw Error('Something went wrong');
+      const item = Item.create({ ...input });
+      item.createdBy = Promise.resolve(user);
       await item.save();
+      console.log(item.id);
       return item;
     } catch (error) {
       throw Error(error);
