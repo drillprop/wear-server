@@ -29,9 +29,10 @@ export class Order extends BaseEntity {
 
   @ManyToOne(
     () => User,
-    user => user.orders
+    user => user.createdOrders
   )
-  user: User;
+  @Field(() => User)
+  orderedBy: Promise<User>;
 
   @ManyToMany(
     () => Item,

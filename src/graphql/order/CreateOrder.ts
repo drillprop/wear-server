@@ -17,7 +17,7 @@ export default class CreateOrderResolver {
       if (!user) throw Error('You have to log in');
       if (!items.length) throw Error("You didn't provide any items");
       const order = new Order();
-      order.user = user;
+      order.orderedBy = Promise.resolve(user);
       order.orderedItems = Promise.resolve(items);
       await order.save();
       return order;

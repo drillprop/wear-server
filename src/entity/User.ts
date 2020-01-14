@@ -78,14 +78,15 @@ export class User extends BaseEntity {
     item => item.createdBy,
     { nullable: true }
   )
-  @Field(type => [Item], { nullable: 'items' })
+  @Field(() => [Item], { nullable: 'items' })
   createdItems: Promise<Item[]>;
 
   @OneToMany(
     () => Order,
-    order => order.user
+    order => order.orderedBy
   )
-  orders: Order[];
+  @Field(() => [Order], { nullable: 'items' })
+  createdOrders: Promise<Order[]>;
 
   static searchUsers(params: SearchUserInput) {
     const queryBuilder = this.createQueryBuilder('item');
