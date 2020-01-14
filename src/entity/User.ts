@@ -11,6 +11,7 @@ import {
 import { Item } from './Item';
 import { SearchUserInput } from '../graphql/user/users/SearchUserInput';
 import { Order } from './Order';
+import customSearchBuilder from '../utils/customSearchBuilder';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -89,17 +90,9 @@ export class User extends BaseEntity {
   createdOrders: Promise<Order[]>;
 
   static searchUsers(params: SearchUserInput) {
-    const queryBuilder = this.createQueryBuilder('item');
-    const { column, argument, skip, take, orderBy, desc, role } = params;
+    const { role, ...rest } = params;
+    const queryBuilder = customSearchBuilder(this, rest);
 
-    if (column && argument) {
-      queryBuilder.andWhere(`${column} ilike '%' || :argument || '%'`, {
-        argument
-      });
-    }
-    if (skip) queryBuilder.skip(skip);
-    if (take) queryBuilder.take(take);
-    if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
     if (role)
       queryBuilder.andWhere(`ROLE = :role`, {
         role

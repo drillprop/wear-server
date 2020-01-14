@@ -12,6 +12,7 @@ import {
 import { User } from './User';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import { Order } from './Order';
+import customSearchBuilder from '../utils/customSearchBuilder';
 
 @ObjectType()
 @Entity()
@@ -59,26 +60,9 @@ export class Item extends BaseEntity {
   updatedAt: Date;
 
   static searchItems(params: SearchItemInput) {
-    const queryBuilder = this.createQueryBuilder('item');
-    const {
-      column,
-      argument,
-      skip,
-      take,
-      orderBy,
-      desc,
-      priceFrom,
-      priceTo
-    } = params;
+    const { priceFrom, priceTo, ...rest } = params;
+    const queryBuilder = customSearchBuilder(this, rest);
 
-    if (column && argument) {
-      queryBuilder.andWhere(`${column} ilike '%' || :argument || '%'`, {
-        argument
-      });
-    }
-    if (skip) queryBuilder.skip(skip);
-    if (take) queryBuilder.take(take);
-    if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
     if (priceFrom)
       queryBuilder.andWhere(`price >= :priceFrom`, {
         priceFrom
