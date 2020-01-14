@@ -36,7 +36,7 @@ export class Item extends BaseEntity {
 
   @ManyToOne(
     () => User,
-    user => user.items
+    user => user.createdItems
   )
   user: User;
 

@@ -75,9 +75,11 @@ export class User extends BaseEntity {
 
   @OneToMany(
     () => Item,
-    item => item.user
+    item => item.user,
+    { nullable: true }
   )
-  items: Item[];
+  @Field(type => [Item], { nullable: 'items' })
+  createdItems: Promise<Item[]>;
 
   @OneToMany(
     () => Order,

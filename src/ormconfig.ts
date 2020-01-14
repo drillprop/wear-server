@@ -8,7 +8,8 @@ const devConfig: ConnectionOptions = {
   database: process.env.DB_NAME,
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
-  synchronize: true
+  synchronize: true,
+  logging: true
 };
 
 const prodConfig: ConnectionOptions = {
