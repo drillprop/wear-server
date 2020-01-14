@@ -22,7 +22,7 @@ export function IsEmailNotTaken(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       constraints: [],
-      validator: IsEmailNotTaken
+      validator: IsEmailNotTakenConstraint
     });
   };
 }
