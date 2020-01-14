@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { User } from './User';
 import { Item } from './Item';
+import SearchInput from '../graphql/shared/SearchInput';
 
 @ObjectType()
 @Entity()
@@ -40,4 +41,20 @@ export class Order extends BaseEntity {
   )
   @JoinTable()
   orderedItems: Promise<Item[]>;
+
+  static searchOrders(params: SearchInput) {
+    const queryBuilder = this.createQueryBuilder('item');
+    const { column, argument, skip, take, orderBy, desc } = params;
+
+    if (column && argument) {
+      queryBuilder.andWhere(`${column} ilike '%' || :argument || '%'`, {
+        argument
+      });
+    }
+    if (skip) queryBuilder.skip(skip);
+    if (take) queryBuilder.take(take);
+    if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
+
+    return queryBuilder.getMany();
+  }
 }
