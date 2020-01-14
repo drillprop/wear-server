@@ -46,7 +46,7 @@ export class Item extends BaseEntity {
 
   @ManyToMany(
     () => Order,
-    order => order.items
+    order => order.orderedItems
   )
   orders: Order[];
 

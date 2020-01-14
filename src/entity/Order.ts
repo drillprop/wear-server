@@ -38,5 +38,5 @@ export class Order extends BaseEntity {
     item => item.orders
   )
   @JoinTable()
-  items: Item[];
+  orderedItems: Promise<Item[]>;
 }
