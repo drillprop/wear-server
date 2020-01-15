@@ -8,8 +8,8 @@ export default class DeleteItemResolver {
   @Mutation(() => SuccessMessage)
   async deleteItem(@Arg('id') id: string) {
     try {
-      const item = await Item.findByIds([id]);
-      if (!item.length) throw Error('No such item');
+      const item = await Item.findOne(id);
+      if (!item) throw Error('No such item');
       await Item.delete(id);
       return {
         message: 'Successfully deleted item'
