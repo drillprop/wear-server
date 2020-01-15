@@ -7,4 +7,8 @@ export class SearchItemInput extends SearchInput {
   priceFrom: number;
   @Field({ nullable: true })
   priceTo: number;
+  @Field({ nullable: true })
+  whereName: string;
+  @Field({ nullable: true })
+  whereCategory: string;
 }

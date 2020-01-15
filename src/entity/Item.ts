@@ -60,18 +60,25 @@ export class Item extends BaseEntity {
   updatedAt: Date;
 
   static searchItems(params: SearchItemInput) {
-    const { priceFrom, priceTo, ...rest } = params;
+    const { whereCategory, whereName, priceFrom, priceTo, ...rest } = params;
     const queryBuilder = customSearchBuilder(this, rest);
 
     if (priceFrom)
       queryBuilder.andWhere(`price >= :priceFrom`, {
         priceFrom
       });
-    if (priceTo) {
+    if (priceTo)
       queryBuilder.andWhere(`price <= :priceTo`, {
         priceTo
       });
-    }
+    if (whereName)
+      queryBuilder.andWhere(`name ilike '%' || :whereName || '%'`, {
+        whereName
+      });
+    if (whereCategory)
+      queryBuilder.andWhere(`category ilike '%' || :whereCategory || '%'`, {
+        whereCategory
+      });
 
     return queryBuilder.getMany();
   }
