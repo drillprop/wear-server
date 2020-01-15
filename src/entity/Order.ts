@@ -1,18 +1,30 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
 import {
+  BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  ManyToMany,
   JoinTable,
-  BaseEntity
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
-import { User } from './User';
-import { Item } from './Item';
-import SearchInput from '../graphql/shared/SearchInput';
+import SearchOrdersInput from '../graphql/order/orders/SearchOrdersInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
+import { Item } from './Item';
+import { User } from './User';
+
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  SENT = 'SENT',
+  COMPLETED = 'COMPLETED'
+}
+
+registerEnumType(OrderStatus, {
+  name: 'OrderStatus'
+});
 
 @ObjectType()
 @Entity()
@@ -29,6 +41,10 @@ export class Order extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Field(() => OrderStatus)
+  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
+  status: OrderStatus;
+
   @ManyToOne(
     () => User,
     user => user.createdOrders
@@ -44,8 +60,14 @@ export class Order extends BaseEntity {
   @Field(() => [Item])
   orderedItems: Promise<Item[]>;
 
-  static searchOrders(params: SearchInput) {
-    const queryBuilder = customSearchBuilder(this, params);
+  static searchOrders(params: SearchOrdersInput) {
+    const { whereStatus, ...rest } = params;
+    const queryBuilder = customSearchBuilder(this, rest);
+
+    if (whereStatus)
+      queryBuilder.andWhere(`status = :whereStatus`, {
+        whereStatus
+      });
 
     return queryBuilder.getMany();
   }
