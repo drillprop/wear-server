@@ -40,7 +40,8 @@ export class Order extends BaseEntity {
     () => Item,
     item => item.orders
   )
-  @JoinTable()
+  @JoinTable({ name: 'ordered_items' })
+  @Field(() => [Item])
   orderedItems: Promise<Item[]>;
 
   static searchOrders(params: SearchInput) {
