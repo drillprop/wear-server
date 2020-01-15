@@ -90,12 +90,30 @@ export class User extends BaseEntity {
   createdOrders: Promise<Order[]>;
 
   static searchUsers(params: SearchUserInput) {
-    const { role, ...rest } = params;
+    const {
+      whereRole,
+      whereEmail,
+      whereFirstName,
+      whereLastName,
+      ...rest
+    } = params;
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (role)
-      queryBuilder.andWhere(`ROLE = :role`, {
-        role
+    if (whereRole)
+      queryBuilder.andWhere(`role = :whereRole`, {
+        whereRole
+      });
+    if (whereEmail)
+      queryBuilder.andWhere(`email ilike '%' || :whereEmail || '%'`, {
+        whereEmail
+      });
+    if (whereFirstName)
+      queryBuilder.andWhere(`firstName ilike '%' || :whereFirstName || '%'`, {
+        whereFirstName
+      });
+    if (whereLastName)
+      queryBuilder.andWhere(`lastName ilike '%' || :whereLastName || '%'`, {
+        whereLastName
       });
 
     return queryBuilder.getMany();

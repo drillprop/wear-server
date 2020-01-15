@@ -7,5 +7,11 @@ import { IsEnum } from 'class-validator';
 export class SearchUserInput extends SearchInput {
   @Field(() => UserRole, { nullable: true })
   @IsEnum(UserRole)
-  role: UserRole;
+  whereRole: UserRole;
+  @Field({ nullable: true })
+  whereEmail: string;
+  @Field({ nullable: true })
+  whereFirstName: string;
+  @Field({ nullable: true })
+  whereLastName: string;
 }
