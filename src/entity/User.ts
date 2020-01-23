@@ -74,6 +74,10 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   resetTokenExpiry?: Date;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true, default: false })
+  newsletter: boolean;
+
   @OneToMany(
     () => Item,
     item => item.createdBy,
