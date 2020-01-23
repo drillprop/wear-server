@@ -10,4 +10,8 @@ export default class ChangePasswordArgs {
   @Field()
   @Length(6, 255)
   newPassword: string;
+
+  @Field()
+  @Length(6, 255)
+  confirmPassword: string;
 }

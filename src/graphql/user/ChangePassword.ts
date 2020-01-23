@@ -10,12 +10,14 @@ import checkPassword from '../../utils/checkPassword';
 export default class ChangePasswordResolver {
   @Mutation(() => SuccessMessage)
   async changePassword(
-    @Args() { password, newPassword }: ChangePasswordArgs,
+    @Args() { password, newPassword, confirmPassword }: ChangePasswordArgs,
     @Ctx() { userId }: Context
   ) {
     try {
       const user = await User.findAndSelectPassword('id', userId);
       if (!user) throw Error('You must be logged in');
+
+      if (newPassword !== confirmPassword) throw Error(`Password don't match`);
 
       const match = await checkPassword(password, user.password);
       if (!match) throw Error('Wrong Password');
