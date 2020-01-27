@@ -3,10 +3,10 @@ import { Field, InputType } from 'type-graphql';
 @InputType()
 export default class UpdateAddressInput {
   @Field({ nullable: true })
-  addresLine1: string;
+  addressLine1: string;
 
   @Field({ nullable: true })
-  addresLine2: string;
+  addressLine2: string;
 
   @Field({ nullable: true })
   zipCode: string;

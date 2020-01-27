@@ -17,11 +17,11 @@ export class Address extends BaseEntity {
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  addresLine1: string;
+  addressLine1: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  addresLine2: string;
+  addressLine2: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
