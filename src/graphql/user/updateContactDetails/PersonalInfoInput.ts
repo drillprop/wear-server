@@ -1,8 +1,8 @@
-import { Length } from 'class-validator';
+import { Length, IsPhoneNumber } from 'class-validator';
 import { Field, InputType, Int } from 'type-graphql';
 
 @InputType()
-export default class ContactDetailsInput {
+export default class PersonalInfoInput {
   @Field({ nullable: true })
   @Length(1, 255)
   firstName: string;
@@ -11,11 +11,8 @@ export default class ContactDetailsInput {
   @Length(1, 255)
   lastName: string;
 
-  @Field({ nullable: true })
-  @Length(1, 255)
-  address: string;
-
   @Field(() => Int, { nullable: true })
   @Length(7, 255)
+  @IsPhoneNumber('PL')
   phoneNumber: number;
 }
