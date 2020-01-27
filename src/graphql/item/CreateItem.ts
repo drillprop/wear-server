@@ -18,7 +18,6 @@ export default class CrateItemResolver {
       const item = Item.create({ ...input });
       item.createdBy = Promise.resolve(user);
       await item.save();
-      console.log(item.id);
       return item;
     } catch (error) {
       throw Error(error);
