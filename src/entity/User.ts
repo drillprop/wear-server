@@ -50,9 +50,9 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   address: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   @Column({ nullable: true })
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   @Field(type => UserRole)

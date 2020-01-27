@@ -11,8 +11,7 @@ export default class PersonalInfoInput {
   @Length(1, 255)
   lastName: string;
 
-  @Field(() => Int, { nullable: true })
-  @Length(7, 255)
+  @Field({ nullable: true })
   @IsPhoneNumber('PL')
-  phoneNumber: number;
+  phoneNumber: string;
 }
