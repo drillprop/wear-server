@@ -6,9 +6,12 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn
 } from 'typeorm';
 import { Item } from './Item';
+import { Address } from './Address';
 import { SearchUserInput } from '../graphql/user/users/SearchUserInput';
 import { Order } from './Order';
 import customSearchBuilder from '../utils/customSearchBuilder';
@@ -45,10 +48,6 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   lastName: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  address: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -92,6 +91,11 @@ export class User extends BaseEntity {
   )
   @Field(() => [Order], { nullable: 'items' })
   createdOrders: Promise<Order[]>;
+
+  @OneToOne(type => Address)
+  @JoinColumn()
+  @Field(() => Address, { nullable: true })
+  address: Promise<Address>;
 
   static searchUsers(params: SearchUserInput) {
     const {
