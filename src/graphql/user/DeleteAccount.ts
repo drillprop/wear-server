@@ -11,7 +11,7 @@ export default class DeleteAccountResolver {
     @Arg('password') password: string,
     @Ctx() { userId, res }: Context
   ) {
-    const user = await User.findOne({ id: userId });
+    const user = await User.findAndSelectPassword('id', userId);
     if (!user) throw Error('You must be logged in');
 
     const match = await checkPassword(password, user.password);
