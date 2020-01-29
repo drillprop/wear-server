@@ -11,8 +11,8 @@ import { User } from './User';
 @ObjectType()
 @Entity()
 export class Address extends BaseEntity {
-  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
   id: string;
 
   @Column({ nullable: true })
