@@ -2,7 +2,7 @@ import { Int, Query, Resolver } from 'type-graphql';
 import { Item } from '../../entity/Item';
 
 @Resolver()
-export class ItemsCountResolver {
+export default class ItemsCountResolver {
   @Query(() => Int)
   async itemsCount() {
     try {

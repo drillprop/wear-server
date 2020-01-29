@@ -2,7 +2,7 @@ import { Authorized, Int, Query, Resolver } from 'type-graphql';
 import { User } from '../../entity/User';
 
 @Resolver()
-export class UsersCountResolver {
+export default class UsersCountResolver {
   @Authorized('ADMIN')
   @Query(() => Int)
   async usersCount() {
