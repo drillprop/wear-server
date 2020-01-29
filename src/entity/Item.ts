@@ -79,7 +79,14 @@ export class Item extends BaseEntity {
   updatedAt: Date;
 
   static searchItems(params: SearchItemInput) {
-    const { whereCategory, whereName, priceFrom, priceTo, ...rest } = params;
+    const {
+      whereCategory,
+      whereName,
+      whereGender,
+      priceFrom,
+      priceTo,
+      ...rest
+    } = params;
     const queryBuilder = customSearchBuilder(this, rest);
 
     if (priceFrom)
@@ -98,6 +105,7 @@ export class Item extends BaseEntity {
       queryBuilder.andWhere(`category ilike '%' || :whereCategory || '%'`, {
         whereCategory
       });
+    if (whereGender) queryBuilder.andWhere(`gender = '${whereGender}'`);
 
     return queryBuilder.getMany();
   }
