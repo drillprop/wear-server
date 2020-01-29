@@ -97,6 +97,9 @@ export class User extends BaseEntity {
   @Field(() => Address, { nullable: true })
   address: Promise<Address>;
 
+  @Field(() => Int, { nullable: true })
+  totalCount: number;
+
   static searchUsers(params: SearchUserInput) {
     const {
       whereRole,
