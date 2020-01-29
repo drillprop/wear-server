@@ -29,6 +29,20 @@ registerEnumType(Gender, {
   name: 'Gender'
 });
 
+export enum Category {
+  TROUSER = 'TROUSER',
+  DRESS = 'DRESS',
+  BLOUSE = 'BLOUSE',
+  TSHIRT = 'TSHIRT',
+  SHIRT = 'SHIRT',
+  JACKET = 'JACKET',
+  BLAZER = 'BLAZER'
+}
+
+registerEnumType(Category, {
+  name: 'Category'
+});
+
 @ObjectType()
 @Entity()
 export class Item extends BaseEntity {
@@ -48,9 +62,9 @@ export class Item extends BaseEntity {
   @Field()
   imageUrl: string;
 
-  @Column()
-  @Field()
-  category: string;
+  @Column({ type: 'enum', enum: Category })
+  @Field(type => Category)
+  category: Category;
 
   @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
   @Field(type => Gender)
@@ -92,8 +106,7 @@ export class Item extends BaseEntity {
     if (priceTo) queryBuilder.andWhere(`price <= ${priceTo}`);
     if (whereName)
       queryBuilder.andWhere(`name ilike '%' || '${whereName}' || '%'`);
-    if (whereCategory)
-      queryBuilder.andWhere(`category ilike '%' || '${whereCategory}' || '%'`);
+    if (whereCategory) queryBuilder.andWhere(`category = '${whereCategory}'`);
     if (whereGender) queryBuilder.andWhere(`gender = '${whereGender}'`);
 
     return queryBuilder.getMany();
