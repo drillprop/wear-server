@@ -32,28 +32,28 @@ registerEnumType(Gender, {
 @ObjectType()
 @Entity()
 export class Item extends BaseEntity {
-  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
   id: string;
 
-  @Field()
   @Column()
+  @Field()
   name: string;
 
-  @Field()
   @Column()
+  @Field()
   price: number;
 
-  @Field()
   @Column()
+  @Field()
   imageUrl: string;
 
-  @Field()
   @Column()
+  @Field()
   category: string;
 
-  @Field(type => Gender)
   @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
+  @Field(type => Gender)
   gender: Gender;
 
   @ManyToOne(
@@ -70,41 +70,30 @@ export class Item extends BaseEntity {
   )
   orders: Order[];
 
-  @Field()
   @CreateDateColumn()
+  @Field()
   createdAt: Date;
 
-  @Field({ nullable: true })
   @UpdateDateColumn()
+  @Field({ nullable: true })
   updatedAt: Date;
 
-  static searchItems(params: SearchItemInput) {
-    const {
-      whereCategory,
-      whereName,
-      whereGender,
-      priceFrom,
-      priceTo,
-      ...rest
-    } = params;
+  static searchItems({
+    whereCategory,
+    whereName,
+    whereGender,
+    priceFrom,
+    priceTo,
+    ...rest
+  }: SearchItemInput) {
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (priceFrom)
-      queryBuilder.andWhere(`price >= :priceFrom`, {
-        priceFrom
-      });
-    if (priceTo)
-      queryBuilder.andWhere(`price <= :priceTo`, {
-        priceTo
-      });
+    if (priceFrom) queryBuilder.andWhere(`price >= ${priceFrom}`);
+    if (priceTo) queryBuilder.andWhere(`price <= ${priceTo}`);
     if (whereName)
-      queryBuilder.andWhere(`name ilike '%' || :whereName || '%'`, {
-        whereName
-      });
+      queryBuilder.andWhere(`name ilike '%' || '${whereName}' || '%'`);
     if (whereCategory)
-      queryBuilder.andWhere(`category ilike '%' || :whereCategory || '%'`, {
-        whereCategory
-      });
+      queryBuilder.andWhere(`category ilike '%' || '${whereCategory}' || '%'`);
     if (whereGender) queryBuilder.andWhere(`gender = '${whereGender}'`);
 
     return queryBuilder.getMany();
