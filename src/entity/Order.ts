@@ -29,20 +29,20 @@ registerEnumType(OrderStatus, {
 @ObjectType()
 @Entity()
 export class Order extends BaseEntity {
-  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
   id: string;
 
-  @Field()
   @CreateDateColumn()
+  @Field()
   createdAt: Date;
 
-  @Field({ nullable: true })
   @UpdateDateColumn()
+  @Field({ nullable: true })
   updatedAt: Date;
 
-  @Field(() => OrderStatus)
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
+  @Field(() => OrderStatus)
   status: OrderStatus;
 
   @ManyToOne(
@@ -60,14 +60,10 @@ export class Order extends BaseEntity {
   @Field(() => [Item])
   orderedItems: Promise<Item[]>;
 
-  static searchOrders(params: SearchOrdersInput) {
-    const { whereStatus, ...rest } = params;
+  static searchOrders({ whereStatus, ...rest }: SearchOrdersInput) {
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (whereStatus)
-      queryBuilder.andWhere(`status = :whereStatus`, {
-        whereStatus
-      });
+    if (whereStatus) queryBuilder.andWhere(`status = '${whereStatus}'`);
 
     return queryBuilder.getMany();
   }
