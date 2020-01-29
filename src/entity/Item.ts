@@ -3,7 +3,8 @@ import {
   ID,
   ObjectType,
   Authorized,
-  registerEnumType
+  registerEnumType,
+  Int
 } from 'type-graphql';
 import {
   BaseEntity,
@@ -91,6 +92,9 @@ export class Item extends BaseEntity {
   @UpdateDateColumn()
   @Field({ nullable: true })
   updatedAt: Date;
+
+  @Field(() => Int)
+  totalCount: number;
 
   static searchItems({
     whereCategory,
