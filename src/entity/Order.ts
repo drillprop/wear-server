@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { Field, ID, ObjectType, registerEnumType, Int } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -44,6 +44,9 @@ export class Order extends BaseEntity {
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
   @Field(() => OrderStatus)
   status: OrderStatus;
+
+  @Field(() => Int)
+  totalCount: number;
 
   @ManyToOne(
     () => User,
