@@ -1,4 +1,10 @@
-import { Field, ID, ObjectType, Authorized } from 'type-graphql';
+import {
+  Field,
+  ID,
+  ObjectType,
+  Authorized,
+  registerEnumType
+} from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -13,6 +19,15 @@ import { User } from './User';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import { Order } from './Order';
 import customSearchBuilder from '../utils/customSearchBuilder';
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE'
+}
+
+registerEnumType(Gender, {
+  name: 'Gender'
+});
 
 @ObjectType()
 @Entity()
@@ -36,6 +51,10 @@ export class Item extends BaseEntity {
   @Field()
   @Column()
   category: string;
+
+  @Field(type => Gender)
+  @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
+  gender: Gender;
 
   @ManyToOne(
     () => User,
