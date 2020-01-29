@@ -1,20 +1,20 @@
-import { Field, ID, ObjectType, registerEnumType, Int } from 'type-graphql';
+import { Field, ID, Int, ObjectType, registerEnumType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
   OneToOne,
-  JoinColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
-import { Item } from './Item';
-import { Address } from './Address';
 import { SearchUserInput } from '../graphql/user/users/SearchUserInput';
-import { Order } from './Order';
 import customSearchBuilder from '../utils/customSearchBuilder';
+import { Address } from './Address';
+import { Item } from './Item';
+import { Order } from './Order';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -29,52 +29,52 @@ registerEnumType(UserRole, {
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
   id: string;
 
-  @Field()
   @Column()
+  @Field()
   email: string;
 
-  @Field()
   @Column({ select: false })
+  @Field()
   password: string;
 
-  @Field({ nullable: true })
   @Column({ nullable: true })
+  @Field({ nullable: true })
   firstName: string;
 
-  @Field({ nullable: true })
   @Column({ nullable: true })
+  @Field({ nullable: true })
   lastName: string;
 
-  @Field({ nullable: true })
   @Column({ nullable: true })
+  @Field({ nullable: true })
   phoneNumber: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   @Field(type => UserRole)
   role: UserRole;
 
-  @Field()
   @CreateDateColumn()
+  @Field()
   createdAt: Date;
 
-  @Field({ nullable: true })
   @UpdateDateColumn()
+  @Field({ nullable: true })
   updatedAt: Date;
 
-  @Field({ nullable: true })
   @Column({ nullable: true })
+  @Field({ nullable: true })
   resetToken?: string;
 
-  @Field({ nullable: true })
   @Column({ nullable: true })
+  @Field({ nullable: true })
   resetTokenExpiry?: Date;
 
-  @Field({ nullable: true })
   @Column({ nullable: true, default: false })
+  @Field({ nullable: true })
   newsletter: boolean;
 
   @OneToMany(
@@ -100,32 +100,24 @@ export class User extends BaseEntity {
   @Field(() => Int, { nullable: true })
   totalCount: number;
 
-  static searchUsers(params: SearchUserInput) {
-    const {
-      whereRole,
-      whereEmail,
-      whereFirstName,
-      whereLastName,
-      ...rest
-    } = params;
+  static searchUsers({
+    whereRole,
+    whereEmail,
+    whereFirstName,
+    whereLastName,
+    ...rest
+  }: SearchUserInput) {
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (whereRole)
-      queryBuilder.andWhere(`role = :whereRole`, {
-        whereRole
-      });
+    if (whereRole) queryBuilder.andWhere(`role = '${whereRole}'`);
     if (whereEmail)
-      queryBuilder.andWhere(`email ilike '%' || :whereEmail || '%'`, {
-        whereEmail
-      });
+      queryBuilder.andWhere(`email ilike '%' || '${whereEmail}' || '%'`);
     if (whereFirstName)
-      queryBuilder.andWhere(`firstName ilike '%' || :whereFirstName || '%'`, {
-        whereFirstName
-      });
+      queryBuilder.andWhere(
+        `firstName ilike '%' || '${whereFirstName}' || '%'`
+      );
     if (whereLastName)
-      queryBuilder.andWhere(`lastName ilike '%' || :whereLastName || '%'`, {
-        whereLastName
-      });
+      queryBuilder.andWhere(`lastName ilike '%' || '${whereLastName}' || '%'`);
 
     return queryBuilder.getMany();
   }
