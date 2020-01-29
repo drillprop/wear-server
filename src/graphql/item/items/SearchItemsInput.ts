@@ -1,6 +1,6 @@
 import { Field, InputType } from 'type-graphql';
 import SearchInput from '../../shared/SearchInput';
-import { Gender } from '../../../entity/Item';
+import { Gender, Category } from '../../../entity/Item';
 
 @InputType()
 export class SearchItemInput extends SearchInput {
@@ -10,8 +10,8 @@ export class SearchItemInput extends SearchInput {
   priceTo: number;
   @Field({ nullable: true })
   whereName: string;
-  @Field({ nullable: true })
-  whereCategory: string;
+  @Field(() => Category, { nullable: true })
+  whereCategory: Category;
   @Field(() => Gender, { nullable: true })
   whereGender: Gender;
 }

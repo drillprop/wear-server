@@ -1,6 +1,7 @@
 import { InputType, Field } from 'type-graphql';
 import { Length, Min, IsUrl } from 'class-validator';
 import { IsNameNotTaken } from '../createItem/IsNameNotTaken';
+import { Category } from '../../../entity/Item';
 
 @InputType()
 export class EditItemInput {
@@ -16,7 +17,6 @@ export class EditItemInput {
   @Field({ nullable: true })
   @IsUrl()
   imageUrl: string;
-  @Field({ nullable: true })
-  @Length(1, 255)
-  category: string;
+  @Field(() => Category, { nullable: true })
+  category: Category;
 }
