@@ -71,6 +71,10 @@ export class Item extends BaseEntity {
   @Field(type => Gender)
   gender: Gender;
 
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  description: string;
+
   @ManyToOne(
     () => User,
     user => user.createdItems

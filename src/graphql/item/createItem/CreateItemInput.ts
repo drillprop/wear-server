@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql';
-import { Length, Min, IsUrl } from 'class-validator';
+import { Length, Min, IsUrl, MaxLength } from 'class-validator';
 import { IsNameNotTaken } from './IsNameNotTaken';
 import { Gender, Category } from '../../../entity/Item';
 
@@ -19,4 +19,7 @@ export class CreateItemInput {
   category: Category;
   @Field(() => Gender)
   gender: Gender;
+  @Field({ nullable: true })
+  @MaxLength(255)
+  description: string;
 }
