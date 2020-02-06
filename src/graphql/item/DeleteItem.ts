@@ -1,4 +1,4 @@
-import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
+import { Arg, Authorized, Mutation, Resolver, ID } from 'type-graphql';
 import { Item } from '../../entity/Item';
 import { SuccessMessage } from '../shared/SuccessMessage';
 
@@ -6,7 +6,7 @@ import { SuccessMessage } from '../shared/SuccessMessage';
 export default class DeleteItemResolver {
   @Authorized(['ADMIN', 'EMPLOYEE'])
   @Mutation(() => SuccessMessage)
-  async deleteItem(@Arg('id') id: string) {
+  async deleteItem(@Arg('id', () => ID) id: string) {
     try {
       const item = await Item.findOne(id);
       if (!item) throw Error('No such item');
