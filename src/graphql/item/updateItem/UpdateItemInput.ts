@@ -7,16 +7,20 @@ import { Category } from '../../../entity/Item';
 export class EditItemInput {
   @Field()
   id: string;
+
   @Field({ nullable: true })
   @Length(1, 255)
   @IsNameNotTaken()
   name: string;
+
   @Field({ nullable: true })
   @Min(1)
   price: number;
+
   @Field({ nullable: true })
   @IsUrl()
   imageUrl: string;
+
   @Field(() => Category, { nullable: true })
   category: Category;
 }
