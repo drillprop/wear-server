@@ -4,7 +4,7 @@ import { SearchUserInput } from './users/SearchUserInput';
 
 @Resolver()
 export class UsersResolver {
-  @Authorized('ADMIN')
+  @Authorized(['ADMIN'])
   @Query(() => [User], { nullable: 'items' })
   async users(@Arg('input', { nullable: true }) input: SearchUserInput) {
     try {
