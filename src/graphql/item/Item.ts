@@ -6,12 +6,8 @@ export default class ItemResolver {
   @Query(() => Item, { nullable: true })
   async item(@Arg('id', () => ID) id: string) {
     try {
-      if (id) {
-        const search = await Item.findOne(id);
-        return search;
-      }
-      const items = await Item.find();
-      return items;
+      const item = await Item.findOne(id);
+      return item;
     } catch (error) {
       throw Error(error);
     }
