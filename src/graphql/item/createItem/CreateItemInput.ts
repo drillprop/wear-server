@@ -9,16 +9,25 @@ export class CreateItemInput {
   @Length(1, 255)
   @IsNameNotTaken()
   name: string;
+
   @Field()
   @Min(1)
   price: number;
+
   @Field()
   @IsUrl()
   imageUrl: string;
+
+  @Field()
+  @IsUrl()
+  largeImageUrl: string;
+
   @Field(() => Category)
   category: Category;
+
   @Field(() => Gender)
   gender: Gender;
+
   @Field({ nullable: true })
   @MaxLength(255)
   description: string;
