@@ -63,10 +63,6 @@ export class Item extends BaseEntity {
   @Field()
   imageUrl: string;
 
-  @Column()
-  @Field()
-  largeImageUrl: string;
-
   @Column({ type: 'enum', enum: Category })
   @Field(type => Category)
   category: Category;

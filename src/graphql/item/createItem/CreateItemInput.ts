@@ -18,10 +18,6 @@ export class CreateItemInput {
   @IsUrl()
   imageUrl: string;
 
-  @Field()
-  @IsUrl()
-  largeImageUrl: string;
-
   @Field(() => Category)
   category: Category;
 
