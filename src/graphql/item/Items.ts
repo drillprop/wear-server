@@ -1,18 +1,24 @@
-import { Arg, Query, Resolver } from 'type-graphql';
+import { Arg, Query, Resolver, ObjectType } from 'type-graphql';
 import { Item } from '../../entity/Item';
 import { SearchItemInput } from './items/SearchItemsInput';
+import SelectAndCount from '../shared/SelectAndCount';
+
+@ObjectType()
+class ItemsAndCount extends SelectAndCount(Item) {}
 
 @Resolver()
 export default class ItemsResolver {
-  @Query(() => [Item], { nullable: 'items' })
+  @Query(() => ItemsAndCount)
   async items(@Arg('input', { nullable: true }) input: SearchItemInput) {
     try {
-      if (input) {
-        const search = await Item.searchItems(input);
-        return search;
-      }
-      const items = await Item.find();
-      return items;
+      let search;
+      if (input) search = await Item.searchItems(input);
+      else search = await Item.findAndCount();
+      const [select, count] = search;
+      return {
+        select,
+        count
+      };
     } catch (error) {
       throw Error(error);
     }

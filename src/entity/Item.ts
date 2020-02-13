@@ -117,6 +117,6 @@ export class Item extends BaseEntity {
     if (whereCategory) queryBuilder.andWhere(`category = '${whereCategory}'`);
     if (whereGender) queryBuilder.andWhere(`gender = '${whereGender}'`);
 
-    return queryBuilder.getMany();
+    return queryBuilder.getManyAndCount();
   }
 }
