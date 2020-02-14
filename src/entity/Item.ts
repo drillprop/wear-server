@@ -31,13 +31,14 @@ registerEnumType(Gender, {
 });
 
 export enum Category {
-  TROUSER = 'TROUSER',
+  TROUSERS = 'TROUSERS',
   DRESS = 'DRESS',
   BLOUSE = 'BLOUSE',
   TSHIRT = 'TSHIRT',
   SHIRT = 'SHIRT',
   JACKET = 'JACKET',
-  BLAZER = 'BLAZER'
+  BLAZER = 'BLAZER',
+  SWEATSHIRT = 'SWEATSHIRT'
 }
 
 registerEnumType(Category, {
