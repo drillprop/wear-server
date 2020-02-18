@@ -119,7 +119,7 @@ export class User extends BaseEntity {
     if (whereLastName)
       queryBuilder.andWhere(`lastName ilike '%' || '${whereLastName}' || '%'`);
 
-    return queryBuilder.getMany();
+    return queryBuilder.getManyAndCount();
   }
 
   static findAndSelectPassword(col: string, arg: string) {
