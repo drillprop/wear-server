@@ -22,8 +22,8 @@ import { Order } from './Order';
 import customSearchBuilder from '../utils/customSearchBuilder';
 
 export enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE'
+  MAN = 'MAN',
+  WOMAN = 'WOMAN'
 }
 
 registerEnumType(Gender, {
@@ -68,7 +68,7 @@ export class Item extends BaseEntity {
   @Field(type => Category)
   category: Category;
 
-  @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
+  @Column({ type: 'enum', enum: Gender })
   @Field(type => Gender)
   gender: Gender;
 
