@@ -101,23 +101,20 @@ export class User extends BaseEntity {
   totalCount: number;
 
   static searchUsers({
-    whereRole,
-    whereEmail,
-    whereFirstName,
-    whereLastName,
+    role,
+    email,
+    firstName,
+    lastName,
     ...rest
   }: SearchUserInput) {
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (whereRole) queryBuilder.andWhere(`role = '${whereRole}'`);
-    if (whereEmail)
-      queryBuilder.andWhere(`email ilike '%' || '${whereEmail}' || '%'`);
-    if (whereFirstName)
-      queryBuilder.andWhere(
-        `firstName ilike '%' || '${whereFirstName}' || '%'`
-      );
-    if (whereLastName)
-      queryBuilder.andWhere(`lastName ilike '%' || '${whereLastName}' || '%'`);
+    if (role) queryBuilder.andWhere(`role = '${role}'`);
+    if (email) queryBuilder.andWhere(`email ilike '%' || '${email}' || '%'`);
+    if (firstName)
+      queryBuilder.andWhere(`"firstName" ilike '%' || '${firstName}' || '%'`);
+    if (lastName)
+      queryBuilder.andWhere(`"lastName" ilike '%' || '${lastName}' || '%'`);
 
     return queryBuilder.getManyAndCount();
   }

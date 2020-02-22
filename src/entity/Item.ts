@@ -102,9 +102,9 @@ export class Item extends BaseEntity {
   totalCount: number;
 
   static searchItems({
-    whereCategory,
-    whereName,
-    whereGender,
+    category,
+    name,
+    gender,
     priceFrom,
     priceTo,
     ...rest
@@ -113,10 +113,9 @@ export class Item extends BaseEntity {
 
     if (priceFrom) queryBuilder.andWhere(`price >= ${priceFrom}`);
     if (priceTo) queryBuilder.andWhere(`price <= ${priceTo}`);
-    if (whereName)
-      queryBuilder.andWhere(`name ilike '%' || '${whereName}' || '%'`);
-    if (whereCategory) queryBuilder.andWhere(`category = '${whereCategory}'`);
-    if (whereGender) queryBuilder.andWhere(`gender = '${whereGender}'`);
+    if (name) queryBuilder.andWhere(`name ilike '%' || '${name}' || '%'`);
+    if (category) queryBuilder.andWhere(`category = '${category}'`);
+    if (gender) queryBuilder.andWhere(`gender = '${gender}'`);
 
     return queryBuilder.getManyAndCount();
   }

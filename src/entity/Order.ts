@@ -63,10 +63,10 @@ export class Order extends BaseEntity {
   @Field(() => [Item])
   orderedItems: Promise<Item[]>;
 
-  static searchOrders({ whereStatus, ...rest }: SearchOrdersInput) {
+  static searchOrders({ status, ...rest }: SearchOrdersInput) {
     const queryBuilder = customSearchBuilder(this, rest);
 
-    if (whereStatus) queryBuilder.andWhere(`status = '${whereStatus}'`);
+    if (status) queryBuilder.andWhere(`status = '${status}'`);
 
     return queryBuilder.getMany();
   }

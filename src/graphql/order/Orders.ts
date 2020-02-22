@@ -6,7 +6,7 @@ import SearchOrdersInput from './orders/SearchOrdersInput';
 export default class OrdersResolver {
   @Authorized(['EMPLOYEE', 'ADMIN'])
   @Query(() => [Order], { nullable: 'items' })
-  async orders(@Arg('input', { nullable: true }) input: SearchOrdersInput) {
+  async orders(@Arg('where', { nullable: true }) input: SearchOrdersInput) {
     try {
       if (input) {
         const search = await Order.searchOrders(input);

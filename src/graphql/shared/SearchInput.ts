@@ -3,7 +3,7 @@ import { InputType, Field, Int, ID } from 'type-graphql';
 @InputType()
 export default class SearchInput {
   @Field(() => ID, { nullable: true })
-  whereId: string;
+  id: string;
 
   @Field(() => Int, { defaultValue: 5 })
   take: number;
@@ -12,7 +12,7 @@ export default class SearchInput {
   skip: number;
 
   @Field({ nullable: true })
-  orderBy: string;
+  sortBy: string;
 
   @Field({ nullable: true })
   desc: boolean;

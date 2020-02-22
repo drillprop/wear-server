@@ -10,7 +10,7 @@ class UsersAndCount extends SelectAndCount(User) {}
 export class UsersResolver {
   @Authorized(['ADMIN'])
   @Query(() => UsersAndCount)
-  async users(@Arg('input', { nullable: true }) input: SearchUserInput) {
+  async users(@Arg('where', { nullable: true }) input: SearchUserInput) {
     try {
       let search;
       if (input) search = await User.searchUsers(input);

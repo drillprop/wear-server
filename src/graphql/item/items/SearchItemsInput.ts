@@ -11,11 +11,11 @@ export class SearchItemInput extends SearchInput {
   priceTo: number;
 
   @Field({ nullable: true })
-  whereName: string;
+  name: string;
 
   @Field(() => Category, { nullable: true })
-  whereCategory: Category;
+  category: Category;
 
   @Field(() => Gender, { nullable: true })
-  whereGender: Gender;
+  gender: Gender;
 }

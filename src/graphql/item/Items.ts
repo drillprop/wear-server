@@ -9,7 +9,7 @@ class ItemsAndCount extends SelectAndCount(Item) {}
 @Resolver()
 export default class ItemsResolver {
   @Query(() => ItemsAndCount)
-  async items(@Arg('input', { nullable: true }) input: SearchItemInput) {
+  async items(@Arg('where', { nullable: true }) input: SearchItemInput) {
     try {
       let search;
       if (input) search = await Item.searchItems(input);

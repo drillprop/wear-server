@@ -7,5 +7,5 @@ import SearchInput from '../../shared/SearchInput';
 export default class SearchOrdersInput extends SearchInput {
   @Field(() => OrderStatus, { nullable: true })
   @IsEnum(OrderStatus)
-  whereStatus: OrderStatus;
+  status: OrderStatus;
 }
