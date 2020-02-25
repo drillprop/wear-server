@@ -1,25 +1,25 @@
 import {
+  Authorized,
   Field,
   ID,
+  Int,
   ObjectType,
-  Authorized,
-  registerEnumType,
-  Int
+  registerEnumType
 } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  ManyToMany
+  UpdateDateColumn
 } from 'typeorm';
-import { User } from './User';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
-import { Order } from './Order';
 import customSearchBuilder from '../utils/customSearchBuilder';
+import { Order } from './Order';
+import { User } from './User';
 
 export enum Gender {
   MAN = 'MAN',
@@ -120,10 +120,13 @@ export class Item extends BaseEntity {
     return queryBuilder.getManyAndCount();
   }
 
-  static getMinAndMaxPrice() {
-    return this.createQueryBuilder()
-      .select('MIN(price)', 'minPrice')
-      .addSelect('MAX(price)', 'maxPrice')
-      .getRawOne();
+  static getMaxPrice({ category, gender, name }: Partial<SearchItemInput>) {
+    const queryBuilder = this.createQueryBuilder();
+
+    if (name) queryBuilder.andWhere(`name ilike '%' || '${name}' || '%'`);
+    if (category) queryBuilder.andWhere(`category = '${category}'`);
+    if (gender) queryBuilder.andWhere(`gender = '${gender}'`);
+
+    return queryBuilder.select('MAX(price)', 'maxPrice').getRawOne();
   }
 }

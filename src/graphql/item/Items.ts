@@ -16,17 +16,9 @@ export default class ItemsResolver {
   @Query(() => ItemsAndCount)
   async items(@Arg('where', { nullable: true }) input: SearchItemInput) {
     try {
-      let search;
-      if (input) search = await Item.searchItems(input);
-      else search = await Item.findAndCount();
-      const [select, count] = search;
-      const { minPrice, maxPrice } = await Item.getMinAndMaxPrice();
-      return {
-        select,
-        count,
-        minPrice,
-        maxPrice
-      };
+      const [select, count] = await Item.searchItems(input);
+      const maxPrice = await Item.getMaxPrice(input);
+      return { select, count, ...maxPrice };
     } catch (error) {
       throw Error(error);
     }
