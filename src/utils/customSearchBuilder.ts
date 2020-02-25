@@ -10,7 +10,7 @@ export default function customSearchBuilder(
   params: SearchInput
 ) {
   const queryBuilder = entity.createQueryBuilder();
-  const { id, skip, take, sortBy, desc } = params;
+  const { id, skip, take, sortBy, sortOrder } = params;
   if (id) {
     queryBuilder.andWhere('id = :id', {
       id
@@ -19,7 +19,7 @@ export default function customSearchBuilder(
 
   if (skip) queryBuilder.skip(skip);
   if (take) queryBuilder.take(take);
-  if (sortBy) queryBuilder.orderBy(sortBy, desc ? 'DESC' : 'ASC');
+  if (sortBy) queryBuilder.orderBy(sortBy, sortOrder);
 
   return queryBuilder;
 }

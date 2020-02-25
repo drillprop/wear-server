@@ -1,4 +1,13 @@
-import { InputType, Field, Int, ID } from 'type-graphql';
+import { InputType, Field, Int, ID, registerEnumType } from 'type-graphql';
+
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
+registerEnumType(SortOrder, {
+  name: 'SortOrder'
+});
 
 @InputType()
 export default class SearchInput {
@@ -11,9 +20,9 @@ export default class SearchInput {
   @Field(() => Int, { defaultValue: 0 })
   skip: number;
 
-  @Field({ nullable: true })
+  @Field({ defaultValue: 'created_at' })
   sortBy: string;
 
-  @Field({ nullable: true })
-  desc: boolean;
+  @Field(type => SortOrder, { defaultValue: SortOrder.DESC })
+  sortOrder: SortOrder;
 }
