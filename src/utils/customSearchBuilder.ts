@@ -10,16 +10,16 @@ export default function customSearchBuilder(
   params: SearchInput
 ) {
   const queryBuilder = entity.createQueryBuilder();
-  const { whereId, skip, take, orderBy, desc } = params;
-  if (whereId) {
+  const { id, skip, take, sortBy, desc } = params;
+  if (id) {
     queryBuilder.andWhere('id = :id', {
-      id: whereId
+      id
     });
   }
 
   if (skip) queryBuilder.skip(skip);
   if (take) queryBuilder.take(take);
-  if (orderBy) queryBuilder.orderBy(orderBy, desc ? 'DESC' : 'ASC');
+  if (sortBy) queryBuilder.orderBy(sortBy, desc ? 'DESC' : 'ASC');
 
   return queryBuilder;
 }
