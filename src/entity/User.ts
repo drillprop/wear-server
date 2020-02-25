@@ -41,15 +41,15 @@ export class User extends BaseEntity {
   @Field()
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'first_name' })
   @Field({ nullable: true })
   firstName: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'last_name' })
   @Field({ nullable: true })
   lastName: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'phone_number' })
   @Field({ nullable: true })
   phoneNumber: string;
 
@@ -57,19 +57,19 @@ export class User extends BaseEntity {
   @Field(type => UserRole)
   role: UserRole;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   @Field()
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   @Field({ nullable: true })
   updatedAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'reset_token' })
   @Field({ nullable: true })
   resetToken?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'reset_token_expiry' })
   @Field({ nullable: true })
   resetTokenExpiry?: Date;
 

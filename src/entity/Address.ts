@@ -15,15 +15,15 @@ export class Address extends BaseEntity {
   @Field(() => ID)
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'address_line1' })
   @Field({ nullable: true })
   addressLine1: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'address_line2' })
   @Field({ nullable: true })
   addressLine2: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'zip_code' })
   @Field({ nullable: true })
   zipCode: string;
 

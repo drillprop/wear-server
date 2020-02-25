@@ -60,7 +60,7 @@ export class Item extends BaseEntity {
   @Field()
   price: number;
 
-  @Column()
+  @Column({ name: 'image_url' })
   @Field()
   imageUrl: string;
 
@@ -90,11 +90,11 @@ export class Item extends BaseEntity {
   )
   orders: Order[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   @Field()
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   @Field({ nullable: true })
   updatedAt: Date;
 

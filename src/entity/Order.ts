@@ -33,11 +33,11 @@ export class Order extends BaseEntity {
   @Field(() => ID)
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   @Field()
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   @Field({ nullable: true })
   updatedAt: Date;
 
