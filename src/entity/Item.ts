@@ -119,4 +119,11 @@ export class Item extends BaseEntity {
 
     return queryBuilder.getManyAndCount();
   }
+
+  static getMinAndMaxPrice() {
+    return this.createQueryBuilder()
+      .select('MIN(price)', 'minPrice')
+      .addSelect('MAX(price)', 'maxPrice')
+      .getRawOne();
+  }
 }

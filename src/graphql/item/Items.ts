@@ -1,10 +1,15 @@
-import { Arg, Query, Resolver, ObjectType } from 'type-graphql';
+import { Arg, Query, Resolver, ObjectType, Field } from 'type-graphql';
 import { Item } from '../../entity/Item';
 import { SearchItemInput } from './items/SearchItemsInput';
 import SelectAndCount from '../shared/SelectAndCount';
 
 @ObjectType()
-class ItemsAndCount extends SelectAndCount(Item) {}
+class ItemsAndCount extends SelectAndCount(Item) {
+  @Field({ nullable: true })
+  maxPrice: number;
+  @Field({ nullable: true })
+  minPrice: number;
+}
 
 @Resolver()
 export default class ItemsResolver {
@@ -15,9 +20,12 @@ export default class ItemsResolver {
       if (input) search = await Item.searchItems(input);
       else search = await Item.findAndCount();
       const [select, count] = search;
+      const { minPrice, maxPrice } = await Item.getMinAndMaxPrice();
       return {
         select,
-        count
+        count,
+        minPrice,
+        maxPrice
       };
     } catch (error) {
       throw Error(error);
