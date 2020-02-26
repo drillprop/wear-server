@@ -14,12 +14,15 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
 import { Order } from './Order';
 import { User } from './User';
+import { Size } from './Size';
 
 export enum Gender {
   MAN = 'MAN',
@@ -89,6 +92,15 @@ export class Item extends BaseEntity {
     order => order.orderedItems
   )
   orders: Order[];
+
+  @OneToOne(
+    type => Size,
+    size => size.item,
+    { nullable: true }
+  )
+  @JoinColumn()
+  @Field(() => Size, { nullable: true })
+  sizes: Promise<Size>;
 
   @CreateDateColumn({ name: 'created_at' })
   @Field()
