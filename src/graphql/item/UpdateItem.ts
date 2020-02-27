@@ -7,12 +7,17 @@ export default class UpdateItemResolver {
   @Authorized(['ADMIN', 'EMPLOYEE'])
   @Mutation(() => Item)
   async updateItem(@Arg('input') input: EditItemInput) {
-    const { id, ...rest } = input;
+    const { id, sizes, ...rest } = input;
     const itemRepository = Item.getRepository();
     try {
       const item = await Item.findOne(id);
       if (!item) throw Error('No such item');
-      const updateItem = await itemRepository.save({ ...item, ...rest });
+
+      const updateItem = await itemRepository.save({
+        ...item,
+        ...rest,
+        sizes: { ...item.sizes, ...sizes }
+      });
       return updateItem;
     } catch (error) {
       throw Error(error);

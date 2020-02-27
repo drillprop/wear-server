@@ -2,6 +2,7 @@ import { InputType, Field } from 'type-graphql';
 import { Length, Min, IsUrl } from 'class-validator';
 import { IsNameNotTaken } from '../createItem/IsNameNotTaken';
 import { Category } from '../../../entity/Item';
+import { ItemSizes } from '../../shared/ItemSizes';
 
 @InputType()
 export class EditItemInput {
@@ -23,4 +24,7 @@ export class EditItemInput {
 
   @Field(() => Category, { nullable: true })
   category: Category;
+
+  @Field(() => ItemSizes, { nullable: true })
+  sizes: ItemSizes;
 }
