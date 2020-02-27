@@ -21,9 +21,7 @@ export default class ItemsResolver {
         const [select, count] = await Item.searchItems(input);
         return { select, count, ...maxPrice };
       } else {
-        const [select, count] = await Item.findAndCount({
-          relations: ['sizes']
-        });
+        const [select, count] = await Item.findAndCount();
         return { select, count, ...maxPrice };
       }
     } catch (error) {

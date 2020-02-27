@@ -96,7 +96,7 @@ export class Item extends BaseEntity {
   @OneToOne(
     type => Size,
     size => size.item,
-    { nullable: true }
+    { nullable: true, eager: true }
   )
   @JoinColumn()
   @Field(() => Size, { nullable: true })
@@ -122,7 +122,6 @@ export class Item extends BaseEntity {
     ...rest
   }: SearchItemInput) {
     const queryBuilder = customSearchBuilder(this, rest);
-    queryBuilder.leftJoinAndSelect('Item.sizes', 'size');
 
     if (priceFrom) queryBuilder.andWhere(`price >= ${priceFrom}`);
     if (priceTo) queryBuilder.andWhere(`price <= ${priceTo}`);
