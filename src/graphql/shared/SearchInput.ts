@@ -20,7 +20,7 @@ export default class SearchInput {
   @Field(() => Int, { defaultValue: 0 })
   skip: number;
 
-  @Field({ defaultValue: 'created_at' })
+  @Field({ nullable: true })
   sortBy: string;
 
   @Field(type => SortOrder, { defaultValue: SortOrder.DESC })
