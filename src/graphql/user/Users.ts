@@ -12,14 +12,13 @@ export class UsersResolver {
   @Query(() => UsersAndCount)
   async users(@Arg('where', { nullable: true }) input: SearchUserInput) {
     try {
-      let search;
-      if (input) search = await User.searchUsers(input);
-      else search = await User.findAndCount();
-      const [select, count] = search;
-      return {
-        select,
-        count
-      };
+      if (input) {
+        const [select, count] = await User.searchUsers(input);
+        return { select, count };
+      } else {
+        const [select, count] = await User.findAndCount();
+        return { select, count };
+      }
     } catch (error) {
       throw Error(error);
     }

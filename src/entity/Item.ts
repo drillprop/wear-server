@@ -132,12 +132,16 @@ export class Item extends BaseEntity {
     return queryBuilder.getManyAndCount();
   }
 
-  static getMaxPrice({ category, gender, name }: Partial<SearchItemInput>) {
+  static getMaxPrice(input?: Partial<SearchItemInput>) {
     const queryBuilder = this.createQueryBuilder();
 
-    if (name) queryBuilder.andWhere(`name ilike '%' || '${name}' || '%'`);
-    if (category) queryBuilder.andWhere(`category = '${category}'`);
-    if (gender) queryBuilder.andWhere(`gender = '${gender}'`);
+    if (input) {
+      if (input.name)
+        queryBuilder.andWhere(`name ilike '%' || '${input.name}' || '%'`);
+      if (input.category)
+        queryBuilder.andWhere(`category = '${input.category}'`);
+      if (input.gender) queryBuilder.andWhere(`gender = '${input.gender}'`);
+    }
 
     return queryBuilder.select('MAX(price)', 'maxPrice').getRawOne();
   }
