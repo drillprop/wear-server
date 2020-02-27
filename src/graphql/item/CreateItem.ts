@@ -21,8 +21,7 @@ export default class CrateItemResolver {
       const item = Item.create({ ...rest });
 
       const itemSizes = await Size.create({ ...sizes }).save();
-      item.sizes = Promise.resolve(itemSizes);
-
+      item.sizes = itemSizes;
       item.createdBy = Promise.resolve(user);
 
       await item.save();

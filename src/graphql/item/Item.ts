@@ -6,7 +6,7 @@ export default class ItemResolver {
   @Query(() => Item, { nullable: true })
   async item(@Arg('id', () => ID) id: string) {
     try {
-      const item = await Item.findOne(id);
+      const item = await Item.findOne(id, { relations: ['sizes'] });
       return item;
     } catch (error) {
       throw Error(error);
