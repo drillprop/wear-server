@@ -96,7 +96,7 @@ export class Item extends BaseEntity {
   @OneToOne(
     type => Size,
     size => size.item,
-    { nullable: true, eager: true }
+    { nullable: true, eager: true, cascade: true }
   )
   @JoinColumn()
   @Field(() => Size, { nullable: true })
