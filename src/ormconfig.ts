@@ -15,7 +15,7 @@ const devConfig: ConnectionOptions = {
 const prodConfig: ConnectionOptions = {
   type: 'postgres',
   url: process.env.DB_URL,
-  entities: ['src/entity/**/*.ts'],
+  entities: ['build/entity/**/*.js'],
   synchronize: false
 };
 
