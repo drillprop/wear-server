@@ -9,9 +9,8 @@
   },
   "scripts": {
     "dev": "ts-node-dev --inspect --respawn -- src/index.ts",
-    "start": "node build/index.js ",
-    "build": "rimraf build && tsc",
-    "postinstall": "npm run build"
+    "start": "node build/index.js",
+    "build": "rimraf build && tsc"
   },
   "keywords": [],
   "author": "",
