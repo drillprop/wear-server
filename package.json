@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --inspect --respawn -- src/index.ts",
-    "start": "ts-node src/index.ts",
-    "generate": "graphql-codegen --watch"
+    "start": "node build/index.js",
+    "build": "rimraf build && tsc"
   },
   "keywords": [],
   "author": "",
@@ -36,8 +36,10 @@
     "@types/jsonwebtoken": "^8.3.5",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^8.0.29",
+    "@types/node-fetch": "^2.5.5",
     "@types/nodemailer": "^6.4.0",
-    "ts-node": "^8.5.4",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.6.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.4"
   }
