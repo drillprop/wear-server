@@ -122,6 +122,7 @@ export class Item extends BaseEntity {
     ...rest
   }: SearchItemInput) {
     const queryBuilder = customSearchBuilder(this, rest);
+    queryBuilder.leftJoinAndSelect('Item.sizes', 'size');
 
     if (priceFrom) queryBuilder.andWhere(`price >= ${priceFrom}`);
     if (priceTo) queryBuilder.andWhere(`price <= ${priceTo}`);
