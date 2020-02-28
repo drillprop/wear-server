@@ -3,6 +3,9 @@ import { customAuthChecker } from './utils/customAuthChecker';
 
 export default () =>
   buildSchema({
-    resolvers: [__dirname + '/graphql/**/*.ts'],
+    resolvers:
+      process.env.NODE_ENV === 'production'
+        ? [__dirname + '/graphql/**/*.js']
+        : [__dirname + '/graphql/**/*.ts'],
     authChecker: customAuthChecker
   });
