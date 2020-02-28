@@ -19,7 +19,9 @@ const startServer = async () => {
       context: ({ req, res }) => {
         const userId = getIdFromToken(req);
         return { req, res, userId };
-      }
+      },
+      introspection: true,
+      playground: true
     });
 
     server.applyMiddleware({ app, cors: false });
