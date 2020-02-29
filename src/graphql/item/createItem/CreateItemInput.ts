@@ -2,7 +2,7 @@ import { IsUrl, Length, MaxLength, Min } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 import { Category, Gender } from '../../../entity/Item';
 import { IsNameNotTaken } from './IsNameNotTaken';
-import { ItemSizes } from '../../shared/ItemSizes';
+import { ItemSizesInput } from '../../shared/ItemSizesInput';
 
 @InputType()
 export class CreateItemInput {
@@ -29,6 +29,6 @@ export class CreateItemInput {
   @MaxLength(255)
   description: string;
 
-  @Field(() => ItemSizes, { nullable: true })
-  sizes: ItemSizes;
+  @Field(() => ItemSizesInput, { nullable: true })
+  sizes: ItemSizesInput[];
 }

@@ -13,11 +13,10 @@ export default class CrateItemResolver {
     @Ctx() { userId }: Context
   ) {
     try {
-      const { sizes, ...rest } = input;
       const user = await User.findOne({ id: userId });
       if (!user) throw Error('Something went wrong');
 
-      const item = Item.create({ ...rest, sizes: { ...sizes } });
+      const item = Item.create({ ...input });
       item.createdBy = Promise.resolve(user);
 
       await item.save();
