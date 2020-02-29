@@ -19,5 +19,4 @@ const prodConfig: ConnectionOptions = {
   synchronize: false
 };
 
-export const config =
-  process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
+export = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;

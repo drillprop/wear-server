@@ -4,12 +4,12 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import app from './app';
 import createSchema from './createSchema';
-import { config } from './ormconfig';
+import ormConfig from './ormconfig';
 import { getIdFromToken } from './utils/getAndCreatetoken';
 
 const startServer = async () => {
   try {
-    const connection = await createConnection(config);
+    const connection = await createConnection(ormConfig);
     await connection.runMigrations();
 
     const schema = await createSchema();
