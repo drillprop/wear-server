@@ -4,7 +4,8 @@ import {
   Column,
   Entity,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  Unique
 } from 'typeorm';
 import { Item } from './Item';
 
@@ -21,6 +22,7 @@ registerEnumType(SizeSymbol, {
   name: 'SizeSymbol'
 });
 
+@Unique(['sizeSymbol', 'item'])
 @ObjectType()
 @Entity()
 export class Size extends BaseEntity {
