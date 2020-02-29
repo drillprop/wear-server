@@ -1,12 +1,25 @@
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType, registerEnumType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   Entity,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { Item } from './Item';
+
+export enum SizeSymbol {
+  XS = 'XS',
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXl = 'XXL'
+}
+
+registerEnumType(SizeSymbol, {
+  name: 'SizeSymbol'
+});
 
 @ObjectType()
 @Entity()
@@ -14,32 +27,21 @@ export class Size extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  xs: number;
+  @Column({
+    nullable: true,
+    name: 'size_symbol',
+    type: 'enum',
+    enum: SizeSymbol
+  })
+  @Field(() => SizeSymbol, { nullable: true })
+  sizeSymbol: SizeSymbol;
 
   @Column({ nullable: true })
   @Field(() => Int, { nullable: true })
-  s: number;
+  quantity: number;
 
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  m: number;
-
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  l: number;
-
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  xl: number;
-
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  xxl: number;
-
-  @OneToOne(
-    type => Item,
+  @ManyToOne(
+    () => Item,
     item => item.sizes
   )
   item: Item;

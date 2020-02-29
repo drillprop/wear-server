@@ -16,7 +16,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
+  OneToMany
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
@@ -93,14 +94,14 @@ export class Item extends BaseEntity {
   )
   orders: Order[];
 
-  @OneToOne(
+  @OneToMany(
     type => Size,
     size => size.item,
     { nullable: true, eager: true, cascade: true }
   )
   @JoinColumn()
   @Field(() => Size, { nullable: true })
-  sizes: Size;
+  sizes: Size[];
 
   @CreateDateColumn({ name: 'created_at' })
   @Field()
