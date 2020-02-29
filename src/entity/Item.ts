@@ -11,19 +11,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
-  OneToMany
+  UpdateDateColumn
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
 import { Order } from './Order';
-import { User } from './User';
 import { Size } from './Size';
+import { User } from './User';
 
 export enum Gender {
   MAN = 'MAN',
@@ -69,11 +68,11 @@ export class Item extends BaseEntity {
   imageUrl: string;
 
   @Column({ type: 'enum', enum: Category })
-  @Field(type => Category)
+  @Field(() => Category)
   category: Category;
 
   @Column({ type: 'enum', enum: Gender })
-  @Field(type => Gender)
+  @Field(() => Gender)
   gender: Gender;
 
   @Column({ nullable: true })
@@ -95,7 +94,7 @@ export class Item extends BaseEntity {
   orders: Order[];
 
   @OneToMany(
-    type => Size,
+    () => Size,
     size => size.item,
     { nullable: true, eager: true, cascade: true }
   )
