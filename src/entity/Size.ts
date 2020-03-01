@@ -15,7 +15,7 @@ export enum SizeSymbol {
   M = 'M',
   L = 'L',
   XL = 'XL',
-  XXl = 'XXL'
+  XXL = 'XXL'
 }
 
 registerEnumType(SizeSymbol, {
