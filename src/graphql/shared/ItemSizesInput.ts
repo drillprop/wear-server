@@ -6,6 +6,6 @@ export class ItemSizesInput {
   @Field(() => SizeSymbol)
   sizeSymbol: SizeSymbol;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int)
   quantity: number;
 }
