@@ -16,7 +16,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinTable
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
@@ -119,6 +120,7 @@ export class Item extends BaseEntity {
     gender,
     priceFrom,
     priceTo,
+    available,
     ...rest
   }: SearchItemInput) {
     const queryBuilder = customSearchBuilder(this, rest);
@@ -129,7 +131,7 @@ export class Item extends BaseEntity {
     if (name) queryBuilder.andWhere(`name ilike '%' || '${name}' || '%'`);
     if (category) queryBuilder.andWhere(`category = '${category}'`);
     if (gender) queryBuilder.andWhere(`gender = '${gender}'`);
-
+    if (available) queryBuilder.andWhere('size.quantity > 0');
     return queryBuilder.getManyAndCount();
   }
 
