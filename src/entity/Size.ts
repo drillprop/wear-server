@@ -44,7 +44,8 @@ export class Size extends BaseEntity {
 
   @ManyToOne(
     () => Item,
-    item => item.sizes
+    item => item.sizes,
+    { onDelete: 'CASCADE' }
   )
   item: Item;
 }
