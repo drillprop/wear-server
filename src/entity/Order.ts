@@ -1,18 +1,18 @@
-import { Field, ID, ObjectType, registerEnumType, Int } from 'type-graphql';
+import { Field, ID, Int, ObjectType, registerEnumType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import SearchOrdersInput from '../graphql/order/orders/SearchOrdersInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
-import { Item } from './Item';
+import { Ordered_Item } from './Ordered_Item';
 import { User } from './User';
 
 export enum OrderStatus {
@@ -55,13 +55,13 @@ export class Order extends BaseEntity {
   @Field(() => User)
   orderedBy: Promise<User>;
 
-  @ManyToMany(
-    () => Item,
-    item => item.orders
+  @OneToMany(
+    () => Ordered_Item,
+    orderedItems => orderedItems.order
   )
   @JoinTable({ name: 'ordered_items' })
-  @Field(() => [Item])
-  orderedItems: Promise<Item[]>;
+  @Field(() => [Ordered_Item])
+  orderedItems: Ordered_Item[];
 
   static searchOrders({ status, ...rest }: SearchOrdersInput) {
     const queryBuilder = customSearchBuilder(this, rest);
