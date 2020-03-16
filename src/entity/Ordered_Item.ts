@@ -1,14 +1,15 @@
-import { ObjectType, Field, ID, Int } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import {
-  Entity,
   BaseEntity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm';
-import { SizeSymbol } from './Size';
-import { Order } from './Order';
 import { Item } from './Item';
+import { Order } from './Order';
+import { SizeSymbol } from './Size';
 
 @ObjectType()
 @Entity()
@@ -20,16 +21,16 @@ export class Ordered_Item extends BaseEntity {
   @ManyToOne(
     () => Order,
     order => order.orderedItems,
-    { onDelete: 'CASCADE', nullable: true }
+    { onDelete: 'CASCADE' }
   )
-  @Field(() => Order, { nullable: true })
   order: Order;
 
   @ManyToOne(
     () => Item,
     item => item.orderedItems,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', eager: true }
   )
+  @JoinColumn()
   @Field(() => Item)
   item: Item;
 
