@@ -90,8 +90,7 @@ export class Item extends BaseEntity {
     () => Ordered_Item,
     orderedItems => orderedItems.item
   )
-  @Field(() => [Ordered_Item])
-  orderedItems: Ordered_Item;
+  orderedItems: Ordered_Item[];
 
   @OneToMany(
     () => Size,
