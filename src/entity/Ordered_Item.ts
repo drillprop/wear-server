@@ -20,8 +20,9 @@ export class Ordered_Item extends BaseEntity {
   @ManyToOne(
     () => Order,
     order => order.orderedItems,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', nullable: true }
   )
+  @Field(() => Order, { nullable: true })
   order: Order;
 
   @ManyToOne(
@@ -29,6 +30,7 @@ export class Ordered_Item extends BaseEntity {
     item => item.orderedItems,
     { onDelete: 'CASCADE' }
   )
+  @Field(() => Item)
   item: Item;
 
   @Column({
