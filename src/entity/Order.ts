@@ -8,7 +8,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinColumn
 } from 'typeorm';
 import SearchOrdersInput from '../graphql/order/orders/SearchOrdersInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
@@ -57,10 +58,11 @@ export class Order extends BaseEntity {
 
   @OneToMany(
     () => Ordered_Item,
-    orderedItems => orderedItems.order
+    orderedItems => orderedItems.order,
+    { eager: true, cascade: true }
   )
-  @JoinTable({ name: 'ordered_items' })
-  @Field(() => [Ordered_Item])
+  @JoinColumn({ name: 'ordered_items' })
+  @Field(() => Ordered_Item)
   orderedItems: Ordered_Item[];
 
   static searchOrders({ status, ...rest }: SearchOrdersInput) {
