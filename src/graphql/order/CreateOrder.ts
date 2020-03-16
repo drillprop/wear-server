@@ -20,10 +20,12 @@ export default class CreateOrderResolver {
       const orderedItemsPromises = input.map(async input => {
         const item = await Item.findOne(input.itemId);
         if (!item) throw Error("Item doesn't exists");
-        const isSizeAvalaible = item.sizes.find(
-          item => item.sizeSymbol === input.size
+        const itemSize = item.sizes.find(
+          item => item.sizeSymbol === input.size && item.quantity > 0
         );
-        if (!isSizeAvalaible) throw Error("Item with this size doesn't exists");
+        if (!itemSize) throw Error("Item with this size doesn't exists");
+        itemSize.quantity = itemSize.quantity - 1;
+        await item.save();
         const orderedItem = new Ordered_Item();
         orderedItem.sizeSymbol = input.size;
         orderedItem.item = item;
