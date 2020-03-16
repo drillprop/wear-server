@@ -1,8 +1,8 @@
-import { Arg, Ctx, Mutation, Resolver, ID } from 'type-graphql';
-import { Item } from '../../entity/Item';
+import { Arg, Ctx, ID, Mutation, Resolver } from 'type-graphql';
+import { Order } from '../../entity/Order';
+import { Ordered_Item } from '../../entity/Ordered_Item';
 import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
-import { Order } from '../../entity/Order';
 
 @Resolver()
 export default class CreateOrderResolver {
@@ -13,12 +13,12 @@ export default class CreateOrderResolver {
   ) {
     try {
       const user = await User.findOne({ id: userId });
-      const items = await Item.findByIds(input);
+      const orderedItems = await Ordered_Item.findByIds(input);
       if (!user) throw Error('You have to log in');
-      if (!items.length) throw Error("You didn't provide any items");
+      if (!orderedItems.length) throw Error("You didn't provide any items");
       const order = new Order();
       order.orderedBy = Promise.resolve(user);
-      order.orderedItems = Promise.resolve(items);
+      order.orderedItems = orderedItems;
       await order.save();
       return order;
     } catch (error) {
