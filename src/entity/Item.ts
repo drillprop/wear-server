@@ -12,16 +12,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  JoinTable
+  UpdateDateColumn
 } from 'typeorm';
 import { SearchItemInput } from '../graphql/item/items/SearchItemsInput';
 import customSearchBuilder from '../utils/customSearchBuilder';
-import { Order } from './Order';
+import { Ordered_Item } from './Ordered_Item';
 import { Size } from './Size';
 import { User } from './User';
 
@@ -88,11 +86,12 @@ export class Item extends BaseEntity {
   @Field(() => User)
   createdBy: Promise<User>;
 
-  @ManyToMany(
-    () => Order,
-    order => order.orderedItems
+  @OneToMany(
+    () => Ordered_Item,
+    orderedItems => orderedItems.item
   )
-  orders: Order[];
+  @Field(() => [Ordered_Item])
+  orderedItems: Ordered_Item;
 
   @OneToMany(
     () => Size,
