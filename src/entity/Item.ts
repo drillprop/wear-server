@@ -109,9 +109,6 @@ export class Item extends BaseEntity {
   @Field({ nullable: true })
   updatedAt: Date;
 
-  @Field(() => Int)
-  totalCount: number;
-
   static searchItems({
     category,
     name,

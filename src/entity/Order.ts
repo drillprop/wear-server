@@ -46,9 +46,6 @@ export class Order extends BaseEntity {
   @Field(() => OrderStatus)
   status: OrderStatus;
 
-  @Field(() => Int)
-  totalCount: number;
-
   @ManyToOne(
     () => User,
     user => user.createdOrders
