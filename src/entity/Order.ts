@@ -53,6 +53,7 @@ export class Order extends BaseEntity {
     () => User,
     user => user.createdOrders
   )
+  @JoinColumn({ name: 'ordered_by' })
   @Field(() => User)
   orderedBy: Promise<User>;
 
