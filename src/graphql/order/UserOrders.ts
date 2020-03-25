@@ -1,4 +1,13 @@
-import { Arg, Ctx, ObjectType, Query, Resolver } from 'type-graphql';
+import {
+  Args,
+  ArgsType,
+  Ctx,
+  Field,
+  Int,
+  ObjectType,
+  Query,
+  Resolver
+} from 'type-graphql';
 import { Order } from '../../entity/Order';
 import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
@@ -7,12 +16,20 @@ import SelectAndCount from '../shared/SelectAndCount';
 @ObjectType()
 class UserOrdersAndCount extends SelectAndCount(Order) {}
 
+@ArgsType()
+class UserOrdersArgs {
+  @Field(() => Int, { defaultValue: 0 })
+  skip?: number;
+
+  @Field(() => Int, { defaultValue: 5 })
+  take?: number;
+}
+
 @Resolver()
 export class UserOrders {
   @Query(() => UserOrdersAndCount, { nullable: true })
   async userOrders(
-    @Arg('take', { defaultValue: 5 }) take: number,
-    @Arg('skip') skip: number,
+    @Args() { skip, take }: UserOrdersArgs,
     @Ctx() { userId }: Context
   ) {
     try {
