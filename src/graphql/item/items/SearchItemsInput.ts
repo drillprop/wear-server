@@ -19,6 +19,6 @@ export class SearchItemInput extends SearchInput {
   @Field(() => Gender, { nullable: true })
   gender: Gender;
 
-  @Field({ defaultValue: true })
+  @Field({ defaultValue: true, nullable: true })
   available: boolean;
 }
