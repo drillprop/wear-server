@@ -28,11 +28,11 @@ export default class ResetPasswordResolver {
       from: 'wear@wear.com',
       to: user.email,
       subject: 'Your Password Reset Token',
-      html: emailTemplate(link)
+      html: emailTemplate(link),
     });
 
     return {
-      message: `Successfully send reset password link to ${user.email}`
+      message: `Successfully send reset password link to ${user.email}`,
     };
   }
 
@@ -46,8 +46,8 @@ export default class ResetPasswordResolver {
     const user = await User.findOne({
       where: {
         resetToken,
-        resetTokenExpiry: MoreThan(now)
-      }
+        resetTokenExpiry: MoreThan(now),
+      },
     });
     if (!user) throw new Error('This token is either invalid or expired');
 
@@ -60,7 +60,9 @@ export default class ResetPasswordResolver {
     const token = createUserToken(user);
     res.cookie('token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true
+      httpOnly: true,
+      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
     });
     return user;
   }

@@ -22,7 +22,9 @@ export default class LoginResolver {
       const token = createUserToken(user);
       res.cookie('token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true
+        httpOnly: true,
+        sameSite: 'none',
+        secure: process.env.NODE_ENV === 'production' ? true : false,
       });
       return user;
     } catch (error) {
