@@ -6,7 +6,7 @@ import { promisify } from 'util';
 import { User } from '../../entity/User';
 import { Context } from '../../types/context.types';
 import { createUserToken } from '../../utils/getAndCreatetoken';
-import { emailTemplate, transport } from '../../utils/mail';
+import { sendMail } from '../../utils/mail';
 import { SuccessMessage } from '../shared/SuccessMessage';
 
 @Resolver()
@@ -24,12 +24,7 @@ export default class ResetPasswordResolver {
     await user.save();
     const link = `${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}`;
 
-    await transport.sendMail({
-      from: 'wear@wear.com',
-      to: user.email,
-      subject: 'Your Password Reset Token',
-      html: emailTemplate(link),
-    });
+    await sendMail(user.email, link);
 
     return {
       message: `Successfully send reset password link to ${user.email}`,
