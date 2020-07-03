@@ -50,5 +50,5 @@ If you want to play around, you can sign in with this email and password:
 
 #### as regular customer:
 
-    email: "testuser@example.com"
-    password: "testuser"
+    email: testuser@example.com
+    password: testuser
