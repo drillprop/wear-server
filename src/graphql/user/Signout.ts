@@ -6,7 +6,11 @@ import { SuccessMessage } from '../shared/SuccessMessage';
 export default class SignoutResolver {
   @Mutation(() => SuccessMessage)
   signout(@Ctx() { res }: Context) {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+    });
     return { message: 'Successfully sign out' };
   }
 }
