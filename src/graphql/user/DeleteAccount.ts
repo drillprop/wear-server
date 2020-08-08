@@ -18,9 +18,13 @@ export default class DeleteAccountResolver {
     if (!match) throw Error('Wrong Password');
 
     await User.delete(userId);
-    res.clearCookie('token');
+    res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+    });
     return {
-      message: 'Successfully deleted account'
+      message: 'Successfully deleted account',
     };
   }
 }

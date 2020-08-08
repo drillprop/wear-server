@@ -8,7 +8,7 @@ export default class SignoutResolver {
   signout(@Ctx() { res }: Context) {
     res.clearCookie('token', {
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       secure: process.env.NODE_ENV === 'production' ? true : false,
     });
     return { message: 'Successfully sign out' };

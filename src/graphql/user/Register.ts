@@ -23,7 +23,7 @@ export default class RegisterResolver {
       res.cookie('token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production' ? true : false,
       });
       return user;
