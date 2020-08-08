@@ -21,7 +21,7 @@ const startServer = async () => {
         return { req, res, userId };
       },
       introspection: true,
-      playground: true
+      playground: true,
     });
 
     server.applyMiddleware({ app, cors: false });
