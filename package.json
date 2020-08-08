@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --inspect --respawn -- src/index.ts",
-    "start": "node build/index.js",
+    "start": "node app.js",
     "build": "rimraf build && tsc"
   },
   "keywords": [],
